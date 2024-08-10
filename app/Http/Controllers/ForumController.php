@@ -13,6 +13,7 @@ class ForumController extends Controller
      */
     public function index()
     {
+        
         //
     }
 
