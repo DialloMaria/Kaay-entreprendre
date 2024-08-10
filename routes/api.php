@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('categorie', [CategorieController::class, 'index']);
+Route::post('categorie', [CategorieController::class, 'store']);

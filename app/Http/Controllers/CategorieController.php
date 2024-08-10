@@ -31,7 +31,7 @@ class CategorieController extends Controller
      */
     public function store(StoreCategorieRequest $request)
     {
-        //
+        return Categorie::create($request->all());
     }
 
     /**
