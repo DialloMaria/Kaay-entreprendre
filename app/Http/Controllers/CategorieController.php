@@ -55,7 +55,8 @@ class CategorieController extends Controller
      */
     public function update(UpdateCategorieRequest $request, Categorie $categorie)
     {
-        //
+        $categorie->update($request->all());
+        return $categorie;
     }
 
     /**
