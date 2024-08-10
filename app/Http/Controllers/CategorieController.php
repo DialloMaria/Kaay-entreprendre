@@ -13,11 +13,12 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        //
+        $categorie = Categorie::all();
+        return $categorie;
     }
 
     /**
-     * 
+     *
      * Show the form for creating a new resource.
      */
     public function create()
