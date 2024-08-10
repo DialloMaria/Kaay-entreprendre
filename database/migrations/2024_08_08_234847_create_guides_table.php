@@ -19,9 +19,25 @@ return new class extends Migration
             $table->string('contenu');
             $table->date('datepublication');
             $table->string('media');
-            $table->string('auteur');
+            $table->integer('etape');
+            $table->string('auteur')->nullable();
             $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
+            // created_by and modifier_by
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
+
+            $table->foreign('modified_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
+
+                $table->softDeletes();
+
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('prenom');
             $table->string('adresse');
             $table->string('telephone');
-            $table->string('specialisation');
-            $table->text('biographie');
+            $table->string('specialisation')->nullable();
+            $table->text('biographie')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

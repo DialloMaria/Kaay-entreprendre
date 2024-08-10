@@ -20,6 +20,18 @@ return new class extends Migration
             $table->integer('nombre de vue');
             $table->date('dateCreation');
             $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('modified_by')->nullable();
+
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
+
+            $table->foreign('modified_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
             $table->timestamps();
         });
     }
