@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Categorie;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CategorieSeeder extends Seeder
 {
@@ -12,6 +13,9 @@ class CategorieSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+
+        Categorie::create(['nom' => 'Technologie']);
+        Categorie::create(['nom' => 'Science']);
+        Categorie::create(['nom' => 'Art']);
     }
 }

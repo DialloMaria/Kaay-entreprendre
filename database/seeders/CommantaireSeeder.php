@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Commantaire;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CommantaireSeeder extends Seeder
 {
@@ -12,6 +13,11 @@ class CommantaireSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Commantaire::create([
+            'contenu' => 'Très bon guide, merci !',
+            'guide_id' => 1, // Assurez-vous que ce guide existe
+            'created_by' => 1, // Assurez-vous que cet utilisateur existe
+            'modified_by' => 1,
+        ]);
     }
 }
