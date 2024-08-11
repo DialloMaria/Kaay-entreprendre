@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\RessourceController;
+use App\Http\Controllers\UserEventController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -34,6 +35,10 @@ Route::middleware('auth:api')->group(function () {
 
 
     Route::post('/domaines/{domaine}/inscrire', [DomaineController::class, 'inscrire']);
+
+    //
+    Route::post('/events/{eventId}/register', [UserEventController::class, 'store'])->middleware('auth:api');
+
 
 });
 // ressources
