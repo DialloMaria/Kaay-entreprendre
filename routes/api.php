@@ -17,10 +17,10 @@ Route::post('/register', [AuthController::class,'register']);
 
 
 // middleware
-// Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')->group(function () {
 
     Route::apiResource('/ressources', RessourceController::class);
-// });
+});
 // ressources
 
 

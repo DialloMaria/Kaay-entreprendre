@@ -62,17 +62,31 @@ public function store(StoreRessourceRequest $request)
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ressource $ressource)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateRessourceRequest $request, Ressource $ressource)
     {
-        //
+        // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
+    // if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
+        if (Auth::id() !== $ressource->created_by) {
+        return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette ressource'], 403);
+    }
+
+    // Mettre à jour la ressource avec les données validées
+    $ressource->fill($request->validated());
+
+    // Mettre à jour l'utilisateur qui modifie la ressource
+    $ressource->modified_by = Auth::id();
+
+    // Sauvegarder les modifications dans la base de données
+    $ressource->save();
+
+    // Retourner une réponse JSON avec la ressource mise à jour
+    return $this->customJsonResponse("Ressource mise à jour avec succès", $ressource);
+
     }
 
     /**
