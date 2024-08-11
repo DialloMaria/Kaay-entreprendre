@@ -11,7 +11,7 @@ class StoreRessourceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreRessourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
-        ];
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'lien' => 'required|url',
+            'type' => 'required|string',
+            'guide_id' => 'required|exists:guides,id',        ];
     }
 }
