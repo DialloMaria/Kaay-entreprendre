@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commantaire;
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreCommantaireRequest;
 use App\Http\Requests\UpdateCommantaireRequest;
-use App\Models\Commantaire;
 
 class CommantaireController extends Controller
 {
@@ -13,9 +14,10 @@ class CommantaireController extends Controller
      */
     public function index()
     {
-        //
+        $commentaire = Commentaire::all();
+        return $commentaire;
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -62,6 +64,8 @@ class CommantaireController extends Controller
      */
     public function destroy(Commantaire $commantaire)
     {
-        //
+        $categorie->delete();
+        return $this->customJsonResponse("Étudiant supprimé avec succès", null, Response::HTTP_OK);
+
     }
 }
