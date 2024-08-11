@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Message;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class MessageSeeder extends Seeder
 {
@@ -12,6 +13,11 @@ class MessageSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Message::create([
+            'nom' => 'Premier message',
+            'forum_id' => 1, // Assurez-vous que ce forum existe
+            'created_by' => 1, // Assurez-vous que cet utilisateur existe
+            'modified_by' => 1,
+        ]);
     }
 }
