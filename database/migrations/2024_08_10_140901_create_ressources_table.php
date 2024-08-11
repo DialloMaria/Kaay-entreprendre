@@ -30,6 +30,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('set null');
+                $table->softDeletes();
+
             $table->timestamps();
         });
     }

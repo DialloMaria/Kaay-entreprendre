@@ -16,8 +16,21 @@ return new class extends Migration
         Schema::create('domaines', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade');
+            // SOFTDELE
+            $table->softDeletes();
+
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedBigInteger('modified_by')->nullable();
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
+
+            $table->foreign('modified_by')
+                ->references('id')
+                ->on('users')
+                ->onDelete('set null');
             $table->timestamps();
         });
     }
