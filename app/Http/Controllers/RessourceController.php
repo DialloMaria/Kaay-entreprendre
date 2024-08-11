@@ -93,7 +93,66 @@ public function store(StoreRessourceRequest $request)
      * Remove the specified resource from storage.
      */
     public function destroy(Ressource $ressource)
-    {
-        //
+{
+    // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
+    // if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
+        if (Auth::id() !== $ressource->created_by ) {
+        return response()->json(['message' => 'Vous n\'êtes pas autorisé à supprimer cette ressource'], 403);
     }
+
+    // Effectuer la suppression logique
+    $ressource->delete();
+
+    return $this->customJsonResponse("Ressource supprimée avec succès", $ressource);
+}
+
+
+// voir corbeille
+public function trashed()
+{
+    $trashedRessources = Ressource::onlyTrashed()->get();
+
+    return response()->json([
+        'message' => 'Liste des ressources supprimées',
+        'data' => $trashedRessources,
+    ]);
+}
+
+//  Restoration
+public function restore($id)
+{
+    $ressource = Ressource::withTrashed()->findOrFail($id);
+
+    // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
+    if (Auth::id() !== $ressource->created_by ) {
+        return response()->json(['message' => 'Vous n\'êtes pas autorisé à restaurer cette ressource'], 403);
+    }
+
+    $ressource->restore();
+
+    return response()->json([
+        'message' => 'Ressource restaurée avec succès',
+        'data' => $ressource,
+    ]);
+}
+
+
+//  force delete
+public function forceDelete($id)
+{
+    $ressource = Ressource::withTrashed()->findOrFail($id);
+
+    // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
+    if (Auth::id()!== $ressource->created_by ) {
+        return response()->json(['message' => 'Vous n\'êtes pas autorisé à supprimer définitivement cette ressource'], 403);
+    }
+
+    $ressource->forceDelete();
+
+    return response()->json([
+       'message' => 'Ressource supprimée définitivement avec succès',
+    ]);
+}
+
+
 }
