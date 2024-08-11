@@ -19,6 +19,9 @@ Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);
 
 // Route des forums
 Route::get('forum',[ForumController::class, 'index']);
+Route::post('forum', [ForumController::class, 'store']);
+Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
+
 
 // login
 Route::post('/login', [AuthController::class,'login']);

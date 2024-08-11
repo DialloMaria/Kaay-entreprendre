@@ -23,13 +23,27 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        // return [
+        //     'name' => fake()->name(),
+        //     'email' => fake()->unique()->safeEmail(),
+        //     'email_verified_at' => now(),
+        //     'password' => static::$password ??= Hash::make('password'),
+        //     'remember_token' => Str::random(10),
+        // ];
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'nom' => $this->faker->lastName,
+            'prenom' => $this->faker->firstName,
+            'adresse' => $this->faker->address,
+            'telephone' => $this->faker->phoneNumber,
+            'specialisation' => $this->faker->word, // Utilisez `null` ou supprimez cette ligne si vous ne souhaitez pas toujours avoir une spécialisation
+            'biographie' => $this->faker->paragraph, // Utilisez `null` ou supprimez cette ligne si vous ne souhaitez pas toujours avoir une biographie
+            'email' => $this->faker->unique()->safeEmail,
+            'email_verified_at' => $this->faker->optional()->dateTime,
+            'password' => bcrypt('password'), // Assurez-vous d'utiliser une méthode pour hasher le mot de passe
             'remember_token' => Str::random(10),
         ];
+
     }
 
     /**

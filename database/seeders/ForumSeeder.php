@@ -21,6 +21,7 @@ class ForumSeeder extends Seeder
             'dateCreation' => now(),
             'domaine_id' => 1 // Assurez-vous que ce domaine existe
         ]);
+        Forum::factory(10)->create();
 
     }
 }

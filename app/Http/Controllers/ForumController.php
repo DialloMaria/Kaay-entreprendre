@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Forum;
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreForumRequest;
 use App\Http\Requests\UpdateForumRequest;
-use App\Models\Forum;
 
 class ForumController extends Controller
 {
@@ -31,7 +32,9 @@ class ForumController extends Controller
      */
     public function store(StoreForumRequest $request)
     {
-        //
+
+        return forum::create($request->all());
+
     }
 
     /**
@@ -63,6 +66,8 @@ class ForumController extends Controller
      */
     public function destroy(Forum $forum)
     {
-        //
+        $forum->delete();
+        return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
+
     }
 }
