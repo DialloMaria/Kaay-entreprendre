@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Domaine;
+use App\Models\Evenement;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -12,11 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('commantaires', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            // $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
-
+            $table->string('contenu');
+            $table->foreignIdFor(Evenement::class)->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('commantaires');
     }
 };
