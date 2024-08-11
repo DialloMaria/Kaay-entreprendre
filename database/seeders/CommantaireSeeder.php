@@ -15,9 +15,9 @@ class CommantaireSeeder extends Seeder
     {
         Commantaire::create([
             'contenu' => 'Très bon guide, merci !',
-            'guide_id' => 1, // Assurez-vous que ce guide existe
-            'created_by' => 1, // Assurez-vous que cet utilisateur existe
-            'modified_by' => 1,
+            'guide_id' => 2, // Assurez-vous que ce guide existe
+            'created_by' => 2, // Assurez-vous que cet utilisateur existe
+            'modified_by' => 2,
         ]);
     }
 }

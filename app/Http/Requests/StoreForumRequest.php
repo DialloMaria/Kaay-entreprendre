@@ -11,7 +11,7 @@ class StoreForumRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StoreForumRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'nombre_de_message' => 'required|integer',
+            'nombre_de_vue' => 'required|integer',
+            'dateCreation' => 'required|date',
+            'domaine_id' => 'required|exists:domaine,id',
+            'created_by' => 'nullable|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
         ];
     }
 }
