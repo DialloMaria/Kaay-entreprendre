@@ -1,67 +1,63 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreGuideRequest;
-use App\Http\Requests\UpdateGuideRequest;
 use App\Models\Guide;
+use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class GuideController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    
     public function index()
     {
-        //
+        $guides = Guide::all();
+        return response()->json($guides);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'contenu' => 'required|string',
+            'datepublication' => 'required|date',
+            'media' => 'required|string',
+            'auteur' => 'required|string',
+            'domaine_id' => 'required|exists:domaines,id',
+        ]);
+
+        try {
+            $guide = Guide::create($request->all());
+            return response()->json($guide, 201);
+        } catch (QueryException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreGuideRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Guide $guide)
     {
-        //
+        return response()->json($guide);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Guide $guide)
-    {
-        //
-    }
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'titre' => 'required|string|max:255',
+        'contenu' => 'required|string',
+        'datepublication' => 'required|date',
+        'media' => 'required|string',
+        'auteur' => 'required|string',
+        'domaine_id' => 'required|exists:domaines,id',
+    ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGuideRequest $request, Guide $guide)
-    {
-        //
-    }
+    $guide = Guide::findOrFail($id);
+    $guide->update($request->all());
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    return response()->json($guide);
+}
+
+
     public function destroy(Guide $guide)
     {
-        //
+        $guide->delete();
+        return response()->json(null, 204);
     }
 }
