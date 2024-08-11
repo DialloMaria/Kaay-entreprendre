@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\RessourceController;
 
 Route::get('/user', function (Request $request) {
@@ -30,6 +31,10 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/ressources/{id}/forceDelete', [RessourceController::class, 'forceDelete']);
 
     Route::apiResource('/ressources', RessourceController::class);
+
+
+    Route::post('/domaines/{domaine}/inscrire', [DomaineController::class, 'inscrire']);
+
 });
 // ressources
 
