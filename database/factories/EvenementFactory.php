@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Domaine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +19,11 @@ class EvenementFactory extends Factory
     {
         return [
             //
+            'titre' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'online' => $this->faker->boolean(),
+            'lieu' => $this->faker->address(),
+            'domaine_id' => Domaine::factory(),
         ];
     }
 }

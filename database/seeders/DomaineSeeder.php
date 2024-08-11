@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Domaine;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DomaineSeeder extends Seeder
 {
@@ -13,5 +14,6 @@ class DomaineSeeder extends Seeder
     public function run(): void
     {
         //
+        Domaine::factory(10)->create();
     }
 }

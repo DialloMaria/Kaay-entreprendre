@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Domaine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +20,14 @@ class GuideFactory extends Factory
     {
         return [
             //
+            'titre' => $this->faker->sentence(),
+            'contenu' => $this->faker->text(), // Générer un texte plus long si nécessaire
+            'datepublication' => $this->faker->date(),
+            'media' => $this->faker->imageUrl(),
+            'auteur' => $this->faker->name(),
+            'domaine_id' => \App\Models\Domaine::factory(),
+            'user_id' => \App\Models\User::factory(),     // Crée ou associe un User
+
         ];
     }
 }

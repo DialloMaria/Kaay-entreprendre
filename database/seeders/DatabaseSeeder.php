@@ -22,7 +22,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            CategorieSeeder::class,
+            UserSeeder::class,         // Doit être exécuté en premier car d'autres modèles dépendent de User
+            CategorieSeeder::class,    // Peut être exécuté juste après User car Domaine en dépend
+            DomaineSeeder::class,      // Dépend de User et Categorie
+            GuideSeeder::class,        // Dépend de Domaine et User
+            EvenementSeeder::class,    // Dépend de Domaine
+            TemoignageSeeder::class,   // Dépend de Guide
         ]);
     }
 }

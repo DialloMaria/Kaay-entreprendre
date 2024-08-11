@@ -13,7 +13,7 @@ class TemoignageController extends Controller
      */
     public function index()
     {
-        
+
         //
     }
 
@@ -39,6 +39,7 @@ class TemoignageController extends Controller
     public function show(Temoignage $temoignage)
     {
         //
+        
     }
 
     /**

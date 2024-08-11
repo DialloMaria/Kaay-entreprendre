@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Evenement;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class EvenementSeeder extends Seeder
 {
@@ -13,5 +14,6 @@ class EvenementSeeder extends Seeder
     public function run(): void
     {
         //
+        Evenement::factory(10)->create();
     }
 }
