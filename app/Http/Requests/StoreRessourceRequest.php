@@ -26,6 +26,9 @@ class StoreRessourceRequest extends FormRequest
             'description' => 'required|string',
             'lien' => 'required|url',
             'type' => 'required|string',
-            'guide_id' => 'required|exists:guides,id',        ];
+            'guide_id' => 'required|exists:guides,id',
+            'created_by' => 'required|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
+              ];
     }
 }

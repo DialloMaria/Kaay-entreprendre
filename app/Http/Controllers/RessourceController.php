@@ -26,25 +26,37 @@ class RessourceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRessourceRequest $request)
-    {
-        // Validate the request
+   /**
+ * Store a newly created resource in storage.
+ */
+public function store(StoreRessourceRequest $request)
+{
+    // Création d'une nouvelle ressource
+    $resource = new Ressource();
+    $resource->fill($request->validated()); // Utilise les données validées
+    $resource->created_by = Auth::id(); // Associe l'utilisateur actuellement connecté
 
-        $resource = new Ressource();
-        $resource->fill($request->all());
-        $resource->created_by = Auth::id();
+    // Enregistre la ressource dans la base de données
+    $resource->save();
 
-        $resource->save();
-        return $this->customJsonResponse("Ressource créée avec succès", $resource);
+    // Retourne une réponse JSON personnalisée
+    return $this->customJsonResponse("Ressource créée avec succès", $resource);
+}
 
-    }
 
     /**
      * Display the specified resource.
      */
     public function show(Ressource $ressource)
     {
-        //
+        // white guide creator
+        $ressource->load('guide', 'creator','modifier');
+
+        // Retourne une réponse JSON personnalisée
+        return $this->customJsonResponse("Ressource", $ressource);
+        // Retourne une réponse JSON personnalisée
+
+
     }
 
     /**

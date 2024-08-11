@@ -15,8 +15,13 @@ Route::post('/login', [AuthController::class,'login']);
 // register
 Route::post('/register', [AuthController::class,'register']);
 
+
+// middleware
+// Route::middleware('auth:api')->group(function () {
+
+    Route::apiResource('/ressources', RessourceController::class);
+// });
 // ressources
-Route::apiResource('/ressources', RessourceController::class);
 
 
 
