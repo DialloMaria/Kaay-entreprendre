@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreCategorieRequest;
 use App\Http\Requests\UpdateCategorieRequest;
-use App\Models\Categorie;
 
 class CategorieController extends Controller
 {
@@ -13,11 +14,12 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        //
+        $categorie = Categorie::all();
+        return $categorie;
     }
 
     /**
-     * 
+     *
      * Show the form for creating a new resource.
      */
     public function create()
@@ -30,7 +32,7 @@ class CategorieController extends Controller
      */
     public function store(StoreCategorieRequest $request)
     {
-        //
+        return Categorie::create($request->all());
     }
 
     /**
@@ -54,7 +56,8 @@ class CategorieController extends Controller
      */
     public function update(UpdateCategorieRequest $request, Categorie $categorie)
     {
-        //
+        $categorie->update($request->all());
+        return $categorie;
     }
 
     /**
@@ -62,6 +65,8 @@ class CategorieController extends Controller
      */
     public function destroy(Categorie $categorie)
     {
-        //
+        $categorie->delete();
+        return $this->customJsonResponse("Étudiant supprimé avec succès", null, Response::HTTP_OK);
+
     }
 }
