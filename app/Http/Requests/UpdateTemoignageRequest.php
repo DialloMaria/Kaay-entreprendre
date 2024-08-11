@@ -11,7 +11,7 @@ class UpdateTemoignageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,9 @@ class UpdateTemoignageRequest extends FormRequest
     {
         return [
             //
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'guide_id' => 'required|exists:guides,id',
         ];
     }
 }

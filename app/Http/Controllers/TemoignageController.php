@@ -8,61 +8,72 @@ use App\Models\Temoignage;
 
 class TemoignageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+     // Create a new témoignage
+     public function store(StoreTemoignageRequest $request)
+     {
+         try {
+             $temoignage = new Temoignage();
+             $temoignage->titre = $request->input('titre');
+             $temoignage->description = $request->input('description');
+             $temoignage->guide_id = $request->input('guide_id');
+             $temoignage->created_by = Auth::id(); // Utiliser l'ID de l'utilisateur connecté
+             $temoignage->save();
 
-        //
+             return response()->json(['message' => 'Témoignage créé avec succès', 'data' => $temoignage], 201);
+         } catch (\Exception $e) {
+             return response()->json(['message' => 'Erreur lors de la création du témoignage', 'error' => $e->getMessage()], 500);
+         }
+     }
+
+     // Update a témoignage
+     public function update(UpdateTemoignageRequest $request, $id)
+     {
+         try {
+             $temoignage = Temoignage::findOrFail($id);
+             if ($temoignage->created_by !== Auth::id()) {
+                 return response()->json(['message' => 'Non autorisé'], 403);
+             }
+
+             $temoignage->titre = $request->input('titre');
+             $temoignage->description = $request->input('description');
+             $temoignage->guide_id = $request->input('guide_id');
+             $temoignage->modified_by = Auth::id(); // Utiliser l'ID de l'utilisateur connecté pour la modification
+             $temoignage->save();
+
+             return response()->json(['message' => 'Témoignage mis à jour avec succès', 'data' => $temoignage], 200);
+         } catch (\Exception $e) {
+             return response()->json(['message' => 'Erreur lors de la mise à jour du témoignage', 'error' => $e->getMessage()], 500);
+         }
+     }
+
+
+// Read a single témoignage
+public function show($id)
+{
+    try {
+        $temoignage = Temoignage::findOrFail($id);
+        return response()->json($temoignage);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Erreur lors de la récupération du témoignage', 'error' => $e->getMessage()], 500);
+    }
+}
+
+
+// Delete a témoignage
+public function destroy($id)
+{
+    try {
+        $temoignage = Temoignage::findOrFail($id);
+        if ($temoignage->created_by !== Auth::id()) {
+            return response()->json(['message' => 'Non autorisé'], 403);
+        }
+
+        $temoignage->delete();
+
+        return response()->json(['message' => 'Témoignage supprimé avec succès'], 200);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Erreur lors de la suppression du témoignage', 'error' => $e->getMessage()], 500);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreTemoignageRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Temoignage $temoignage)
-    {
-        //
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Temoignage $temoignage)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTemoignageRequest $request, Temoignage $temoignage)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Temoignage $temoignage)
-    {
-        //
-    }
+}
 }

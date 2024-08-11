@@ -19,14 +19,16 @@ class GuideFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-            'titre' => $this->faker->sentence(),
-            'contenu' => $this->faker->text(), // Générer un texte plus long si nécessaire
+            'titre' => $this->faker->sentence,
+            'contenu' => $this->faker->paragraph,
             'datepublication' => $this->faker->date(),
-            'media' => $this->faker->imageUrl(),
-            'auteur' => $this->faker->name(),
-            'domaine_id' => \App\Models\Domaine::factory(),
-            'user_id' => \App\Models\User::factory(),     // Crée ou associe un User
+            'media' => $this->faker->word . '.jpg',
+            'etape' => $this->faker->numberBetween(1, 10),
+            'auteur' => $this->faker->name,
+            'domaine_id' => Domaine::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
+            'created_by' => User::inRandomOrder()->first()->id,
+            'modified_by' => User::inRandomOrder()->first()->id,
 
         ];
     }
