@@ -3,30 +3,67 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Forum;
+use App\Models\Guide;
+use App\Models\Domaine;
+use App\Models\Message;
+use App\Models\Categorie;
+use App\Models\Evenement;
+use App\Models\Ressource;
+use App\Models\UserEvent;
+use App\Models\Temoignage;
+use App\Models\Commantaire;
 use Illuminate\Database\Seeder;
-use Database\Seeders\CategorieSeeder;
+use Illuminate\Support\Facades\DB;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
+
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+          // Désactiver la vérification des clés étrangères pour éviter les erreurs
+    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+    // Truncate des tables
+    User::truncate();
+    Categorie::truncate();
+    Domaine::truncate();
+    Guide::truncate();
+    Temoignage::truncate();
+    Forum::truncate();
+    Message::truncate();
+    Evenement::truncate();
+    Commantaire::truncate();
+    Ressource::truncate();
+    UserEvent::truncate();
+    Role::truncate();
+    Permission::truncate();
+
+    // Réactiver la vérification des clés étrangères
+    DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
 
         $this->call([
-            CategorieSeeder::class,
+            RolesAndPermissionsSeeder::class,
             UserSeeder::class,
+            CategorieSeeder::class,
+            CommentaireSeeder::class,
             DomaineSeeder::class,
             GuideSeeder::class,
-            CommentaireSeeder::class,
+            TemoignageSeeder::class,
+            ForumSeeder::class,
+            MessageSeeder::class,
+            EvenementSeeder::class,
+            CommantaireSeeder::class,
+            RessourceSeeder::class,
+            UserEventSeeder::class,
         ]);
     }
 }

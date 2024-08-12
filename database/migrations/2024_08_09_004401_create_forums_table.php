@@ -16,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('description');
-            $table->integer('nombre de message');
-            $table->integer('nombre de vue');
+            $table->integer('nombre_de_message');
+            $table->integer('nombre_de_vue');
             $table->date('dateCreation');
             $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('created_by')->nullable();

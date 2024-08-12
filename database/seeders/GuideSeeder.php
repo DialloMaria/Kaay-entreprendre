@@ -5,9 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Guide;
 use App\Models\User;
 use App\Models\Domaine;
+use App\Models\Guide;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class GuideSeeder extends Seeder
 {
@@ -30,7 +31,8 @@ class GuideSeeder extends Seeder
             'media' => 'media1.jpg',
             'auteur' => 'Author 1',
             'domaine_id' => $domaineId,
-            'user_id' => $userId,
+            'created_by' => $userId,
+            'modified_by' => $userId,
         ]);
 
         Guide::create([
@@ -40,7 +42,20 @@ class GuideSeeder extends Seeder
             'media' => 'media2.jpg',
             'auteur' => 'Author 2',
             'domaine_id' => $domaineId,
-            'user_id' => $userId,
+            'created_by' => $userId,
+            'modified_by' => $userId,
+        ]);
+
+        Guide::create([
+            'titre' => 'Guide de Débutant en Laravel',
+            'contenu' => 'Voici un guide pour démarrer avec Laravel...',
+            'datepublication' => now(),
+            'media' => 'guide1.pdf',
+            'etape' => 1,
+            'auteur' => 'Souleymane Ndiaye',
+            'domaine_id' => 1, // Assurez-vous que ce domaine existe
+            'created_by' => 1,
+            'modified_by' => 1,
         ]);
     }
 }

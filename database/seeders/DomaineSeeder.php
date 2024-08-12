@@ -3,19 +3,26 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Domaine;
 use App\Models\User;
 use App\Models\Categorie;
+use App\Models\Domaine;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DomaineSeeder extends Seeder
 {
     public function run()
     {
-        
-        User::factory()->count(5)->create();
-        Categorie::factory()->count(5)->create();
 
-       
+
+
+        Domaine::create([
+            'nom' => 'Développement Web',
+            'created_by' => 1,
+            'modified_by' => 1,
+            'categorie_id' => 1 // Assurez-vous que cette catégorie existe
+        ]);
         Domaine::factory()->count(5)->create();
+
+
     }
 }

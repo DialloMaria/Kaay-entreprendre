@@ -10,6 +10,7 @@ abstract class Controller
             "message" => $message,
             "data" => $data
         ], $code);
+
     }
 }
 

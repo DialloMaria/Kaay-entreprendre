@@ -13,6 +13,9 @@ class CategorieSeeder extends Seeder
      */
     public function run(): void
     {
-        Categorie::factory(10)->create();
+
+        Categorie::create(['nom' => 'Technologie']);
+        Categorie::create(['nom' => 'Science']);
+        Categorie::create(['nom' => 'Art']);
     }
 }
