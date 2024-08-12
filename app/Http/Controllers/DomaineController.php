@@ -9,16 +9,17 @@ use App\Models\Domaine;
 class DomaineController extends Controller
 {
     /**
-     * Display a listing of the resource.  
+     * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $domaine = Domaine::with(['creator', 'modifier', 'categorie'])->get();
+        return $this->customJsonResponse("domaine retrieved successfully", $domaine);
     }
 
     /**
      * Show the form for creating a new resource.
-     */
+     */ 
     public function create()
     {
         //
