@@ -11,13 +11,13 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
-use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\TemoignageController;
 
 // Routes accessibles sans authentification
-// =========================================
 
 // Route pour récupérer les informations de l'utilisateur authentifié
 Route::get('/user', function (Request $request) {
@@ -35,7 +35,6 @@ Route::post('/register/admin', [AuthController::class, 'registerAdmin']);
 
 
 // Routes protégées par authentification
-// ======================================
 
 Route::middleware('auth:api')->group(function () {
 
@@ -143,4 +142,15 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('domaine/{domaine}', [DomaineController::class, 'destroy']);
 
 
+    Route::patch('profiles/{id}', [ProfileController::class,'update']);
+    // Route des forums
+    Route::get('forum',[ForumController::class, 'index']);
+    Route::post('forum', [ForumController::class, 'store']);
+    Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
+
+    // Routes des commentaire
+    Route::get('commentaire', [CommentaireController::class, 'index']);
+    Route::post('commentaire', [CommentaireController::class, 'store']);
+    Route::post('commentaire/{commentaire}', [CommentaireController::class, 'update']);
+    Route::delete('commentaire/{commentaire}', [CommentaireController::class, 'destroy']);
 });
