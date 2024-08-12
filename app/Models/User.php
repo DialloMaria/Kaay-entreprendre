@@ -19,8 +19,9 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $quarded = [
 
+    protected $fillable = [
+        'nom', 'prenom', 'adresse', 'telephone', 'specialisation', 'biographie', 'email', 'password',
     ];
     // domaines()
     public function domaines()

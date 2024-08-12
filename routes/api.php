@@ -32,15 +32,20 @@ Route::post('/login', [AuthController::class,'login']);
 
 // register
 Route::post('/register', [AuthController::class,'register']);
+Route::post('/register/admin', [AuthController::class,'registerAdmin']);
 
 
 // middleware
 Route::middleware('auth:api')->group(function () {
 
-    Route::get('/logout', function () {
-        Auth::logout();
-        return response()->json(['message' => 'Logged out successfully']);
-    });
+    // Route::get('/logout', function () {
+    //     Auth::logout();
+    //     return response()->json(['message' => 'Logged out successfully']);
+    // });
+
+    // logout
+    Route::post('/logout', [AuthController::class,'logout']);
+
 
     // ressources supprimées
     Route::get('/ressources/corbeille', [RessourceController::class,'trashed']); // ressources supprimées
