@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CommantaireController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -36,6 +37,12 @@ Route::post('message', [MessageController::class, 'store']);
 Route::post('message/{message}', [MessageController::class, 'update']);
 Route::delete('message/{message}', [MessageController::class, 'destroy']);
 
+// Routes des commentaire
+
+Route::get('commentaire', [CommantaireController::class, 'index']);
+Route::post('commentaire', [CommantaireController::class, 'store']);
+Route::post('commentaire/{commentaire}', [CommantaireController::class, 'update']);
+Route::delete('commentaire/{commentaire}', [CommantaireController::class, 'destroy']);
 
 // login
 Route::post('/login', [AuthController::class,'login']);

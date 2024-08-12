@@ -29,6 +29,7 @@ class StoreForumRequest extends FormRequest
             'dateCreation' => 'required|date',
             'domaine_id' => 'required|exists:domaines,id',
             'created_by' => 'required|exists:users,id',
+            'created_by' => 'nullable|exists:users,id',
             'modified_by' => 'nullable|exists:users,id',
         ];
     }
