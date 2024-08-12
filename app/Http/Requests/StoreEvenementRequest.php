@@ -27,7 +27,7 @@ class StoreEvenementRequest extends FormRequest
             'description' => 'required|string',
             'online' => 'required|boolean',
             'lieu' => 'required|string|max:255',
-            'domaine_id' => 'required|exists:domaine,id',
+            'domaine_id' => 'required|exists:domaines,id',
         ];
     }
 }
