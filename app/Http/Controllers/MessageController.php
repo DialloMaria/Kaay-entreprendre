@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
-use App\Models\Message;
 
 class MessageController extends Controller
 {
@@ -13,9 +14,10 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $message = Message::all();
+        return $message;
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -30,7 +32,7 @@ class MessageController extends Controller
      */
     public function store(StoreMessageRequest $request)
     {
-        //
+        return Message::create($request->all());
     }
 
     /**
@@ -54,7 +56,8 @@ class MessageController extends Controller
      */
     public function update(UpdateMessageRequest $request, Message $message)
     {
-        //
+        $message->update($request->all());
+        return $message;
     }
 
     /**
@@ -62,6 +65,8 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $forum->delete();
+        return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
+
     }
 }

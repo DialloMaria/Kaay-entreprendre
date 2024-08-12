@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategorieController;
 
 Route::get('/user', function (Request $request) {
@@ -21,6 +22,13 @@ Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);
 Route::get('forum',[ForumController::class, 'index']);
 Route::post('forum', [ForumController::class, 'store']);
 Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
+
+// Routes des message
+
+Route::get('message', [MessageController::class, 'index']);
+Route::post('message', [MessageController::class, 'store']);
+Route::post('message/{message}', [MessageController::class, 'update']);
+Route::delete('message/{message}', [MessageController::class, 'destroy']);
 
 
 // login
