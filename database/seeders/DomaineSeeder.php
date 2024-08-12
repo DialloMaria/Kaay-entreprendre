@@ -22,6 +22,5 @@ class DomaineSeeder extends Seeder
             'categorie_id' => 1 // Assurez-vous que cette catégorie existe
         ]);
 
-        Domaine::factory(10)->create();
     }
 }

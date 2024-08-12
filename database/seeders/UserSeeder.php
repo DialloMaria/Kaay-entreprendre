@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
 
 
 
-        User::create([
+        $user1=  User::create([
             'nom' => 'Ndiaye',
             'prenom' => 'Souleymane',
             'adresse' => 'Dakar, Senegal',
@@ -87,7 +87,7 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-    
+
 
     }
 }

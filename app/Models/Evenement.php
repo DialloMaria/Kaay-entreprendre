@@ -9,17 +9,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Evenement extends Model
 {
     use HasFactory;
-    protected $guarded=[];
-  /*  protected $fillable = [
+protected $fillable = [
         'titre',
         'description',
         'online',
         'lieu',
-        'domaine_id'
+        'domaine_id',
+        'created_by',
+        'modified_by',
     ];
-*/
+
     public function domaine()
     {
-        return $this->belongsTo(Domaine::class, 'domaine_id');
+        return $this->belongsTo(Domaine::class);
 }
 }

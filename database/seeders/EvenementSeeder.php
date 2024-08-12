@@ -24,6 +24,5 @@ class EvenementSeeder extends Seeder
             'domaine_id' => 1 // Assurez-vous que ce domaine existe
         ]);
         //
-        Evenement::factory(10)->create();
     }
 }

@@ -28,6 +28,8 @@ class StoreEvenementRequest extends FormRequest
             'online' => 'required|boolean',
             'lieu' => 'required|string|max:255',
             'domaine_id' => 'required|exists:domaines,id',
+            'created_by' => 'required|exists:users,id',
+
         ];
     }
 }

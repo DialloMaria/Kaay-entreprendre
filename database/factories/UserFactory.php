@@ -10,5 +10,11 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserFactory extends Factory
 {
-  
+    public function definition(): array
+    {
+        return [
+            //
+
+        ];
+    }
 }

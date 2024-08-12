@@ -61,6 +61,9 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/roles', [RoleController::class, 'getAllRoles']);
     Route::get('/domaines/{role}', [RoleController::class, 'getUsersByRole']);
 
+    Route::apiResource('evenements', EvenementController::class);
+Route::apiResource('temoignages', TemoignageController::class);
+
 
 });
 // ressources
@@ -68,7 +71,5 @@ Route::middleware('auth:api')->group(function () {
 
 
 // La route pour les temoignages
-Route::apiResource('temoignages', TemoignageController::class);
 // La route pour les evenements
-Route::apiResource('evenements', EvenementController::class);
 

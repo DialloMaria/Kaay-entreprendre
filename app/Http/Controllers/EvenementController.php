@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Evenement;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreEvenementRequest;
 use App\Http\Requests\UpdateEvenementRequest;
 
@@ -53,24 +54,18 @@ class EvenementController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreEvenementRequest $request)
-{
-    try {/*
-        $user = auth()->user();
-        if (!$user) {
-            return response()->json(['message' => 'Utilisateur non authentifié'], 401);
-        }
-*/
-        $validated = $request->validated();
-        $evenement = Evenement::create($validated);
-      
-        return response()->json($evenement, 201);
-    } catch (Exception $e) {
-        return response()->json([
-            'message' => 'Erreur lors de la création de l\'événement',
-            'error' => $e->getMessage()
-        ], 500);
+    {
+
+        $evenement = new Evenement();
+        $evenement->fill($request->validated()); // Utilise les données validées
+        $evenement->created_by = Auth::id(); // Associe l'utilisateur actuellement connecté
+
+        // Enregistre la ressource dans la base de données
+        $evenement->save();
+        return $this->customJsonResponse("Evenement créée avec succès", $evenement);
+        
+
     }
-}
 
 
 
@@ -91,9 +86,15 @@ class EvenementController extends Controller
         if (!$evenement) {
             return response()->json(['message' => 'Événement non trouvé'], 404);
         }
+             // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
+    // if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
+        if (Auth::id() !== $evenement->created_by) {
+            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette evenement'], 403);
+        }
+        $evenement->modified_by = Auth::id();
 
         $evenement->update($validated);
-        return response()->json($evenement, 200);
+        return $this->customJsonResponse("Evénement mise à jour avec succès", $evenement);
     } catch (Exception $e) {
         return response()->json([
             'message' => 'Erreur lors de la mise à jour de l\'événement',

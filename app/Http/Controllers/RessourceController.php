@@ -37,7 +37,7 @@ public function store(StoreRessourceRequest $request)
     $resource->created_by = Auth::id(); // Associe l'utilisateur actuellement connecté
 
     // Enregistre la ressource dans la base de données
-    $resource->save();  
+    $resource->save();
 
     // Retourne une réponse JSON personnalisée
     return $this->customJsonResponse("Ressource créée avec succès", $resource);
@@ -96,7 +96,7 @@ public function store(StoreRessourceRequest $request)
 {
     // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
     // if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
-        if (Auth::id() !== $ressource->created_by ) {
+    if (Auth::id() !== $ressource->created_by ) {
         return response()->json(['message' => 'Vous n\'êtes pas autorisé à supprimer cette ressource'], 403);
     }
 
