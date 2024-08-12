@@ -64,7 +64,16 @@ class DomaineController extends Controller
      */
     public function update(UpdateDomaineRequest $request, Domaine $domaine)
     {
-        //
+                 // Validation des données de la requête
+                 $data = $request->validated();
+                 // Création d'une nouvelle instance de Domaine
+                 $domaine = new Domaine();
+                 $domaine->fill($data);
+                 $domaine->modified_by = auth()->id();
+                 $domaine->save();
+
+                 return $this->customJsonResponse("Domaine cree successfully", $domaine, 201);
+
     }
 
     /**
