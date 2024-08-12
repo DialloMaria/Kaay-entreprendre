@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\CommantaireController;
@@ -31,18 +32,23 @@ Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
 
 
 // Routes des message
-
 Route::get('message', [MessageController::class, 'index']);
 Route::post('message', [MessageController::class, 'store']);
 Route::post('message/{message}', [MessageController::class, 'update']);
 Route::delete('message/{message}', [MessageController::class, 'destroy']);
 
 // Routes des commentaire
-
 Route::get('commentaire', [CommantaireController::class, 'index']);
 Route::post('commentaire', [CommantaireController::class, 'store']);
 Route::post('commentaire/{commentaire}', [CommantaireController::class, 'update']);
 Route::delete('commentaire/{commentaire}', [CommantaireController::class, 'destroy']);
+
+// Routes des domaine
+Route::get('domaine', [DomaineController::class, 'index']);
+Route::post('domaine', [DomaineController::class, 'store']);
+Route::post('domaine/{domaine}', [DomaineController::class, 'update']);
+Route::delete('domaine/{domaine}', [DomaineController::class, 'destroy']);
+
 
 // login
 Route::post('/login', [AuthController::class,'login']);

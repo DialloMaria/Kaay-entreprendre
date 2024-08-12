@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domaine;
+use Illuminate\Http\Response;
 use App\Http\Requests\StoreDomaineRequest;
 use App\Http\Requests\UpdateDomaineRequest;
-use App\Models\Domaine;
 
 class DomaineController extends Controller
 {
     /**
-     * Display a listing of the resource.  
+     * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $domaine = Domaine::with(['creator', 'modifier', 'categorie'])->get();
+        return $this->customJsonResponse("domaine retrieved successfully", $domaine);
     }
 
     /**
@@ -29,7 +31,16 @@ class DomaineController extends Controller
      */
     public function store(StoreDomaineRequest $request)
     {
-        //
+         // Validation des données de la requête
+         $data = $request->validated();
+         // Création d'une nouvelle instance de Domaine
+         $domaine = new Domaine();
+         $domaine->fill($data);
+         $domaine->created_by = auth()->id();
+         $domaine->save();
+
+         return $this->customJsonResponse("Domaine cree successfully", $domaine, 201);
+
     }
 
     /**
@@ -53,7 +64,16 @@ class DomaineController extends Controller
      */
     public function update(UpdateDomaineRequest $request, Domaine $domaine)
     {
-        //
+                 // Validation des données de la requête
+                 $data = $request->validated();
+                 // Création d'une nouvelle instance de Domaine
+                 $domaine = new Domaine();
+                 $domaine->fill($data);
+                 $domaine->modified_by = auth()->id();
+                 $domaine->save();
+
+                 return $this->customJsonResponse("Domaine cree successfully", $domaine, 201);
+
     }
 
     /**
@@ -61,6 +81,8 @@ class DomaineController extends Controller
      */
     public function destroy(Domaine $domaine)
     {
-        //
+        $domaine->delete();
+        return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
+
     }
 }

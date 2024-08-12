@@ -31,7 +31,6 @@ return new class extends Migration
                   ->onDelete('set null');
             $table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade');
             $table->timestamps();
-
         });
     }
 
