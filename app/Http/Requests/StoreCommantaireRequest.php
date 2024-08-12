@@ -11,7 +11,7 @@ class StoreCommantaireRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreCommantaireRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'contenu' => 'required|string',
+            'evenement_id' => 'required|exists:evenements,id',
         ];
     }
 }

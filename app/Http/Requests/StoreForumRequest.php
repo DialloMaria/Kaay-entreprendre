@@ -27,7 +27,7 @@ class StoreForumRequest extends FormRequest
             'nombre_de_message' => 'required|integer',
             'nombre_de_vue' => 'required|integer',
             'dateCreation' => 'required|date',
-            'domaine_id' => 'required|exists:domaine,id',
+            'domaine_id' => 'required|exists:domaines,id',
             'created_by' => 'nullable|exists:users,id',
             'modified_by' => 'nullable|exists:users,id',
         ];

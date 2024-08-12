@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\CommantaireController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -22,6 +23,12 @@ Route::get('forum',[ForumController::class, 'index']);
 Route::post('forum', [ForumController::class, 'store']);
 Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
 
+// Routes des commentaire
+
+Route::get('commentaire', [CommantaireController::class, 'index']);
+Route::post('commentaire', [CommantaireController::class, 'store']);
+Route::post('commentaire/{commentaire}', [CommantaireController::class, 'update']);
+Route::delete('commentaire/{commentaire}', [CommantaireController::class, 'destroy']);
 
 // login
 Route::post('/login', [AuthController::class,'login']);

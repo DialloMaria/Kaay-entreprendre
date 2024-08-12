@@ -14,8 +14,8 @@ class CommantaireController extends Controller
      */
     public function index()
     {
-        $commentaire = Commentaire::all();
-        return $commentaire;
+        $commantaire = Commantaire::all();
+        return $commantaire;
     }
 
 
@@ -32,7 +32,8 @@ class CommantaireController extends Controller
      */
     public function store(StoreCommantaireRequest $request)
     {
-        //
+        return commantaire::create($request->all());
+
     }
 
     /**
@@ -56,7 +57,8 @@ class CommantaireController extends Controller
      */
     public function update(UpdateCommantaireRequest $request, Commantaire $commantaire)
     {
-        //
+        $commantaire->update($request->all());
+        return $commantaire;
     }
 
     /**
@@ -64,8 +66,8 @@ class CommantaireController extends Controller
      */
     public function destroy(Commantaire $commantaire)
     {
-        $categorie->delete();
-        return $this->customJsonResponse("Étudiant supprimé avec succès", null, Response::HTTP_OK);
+        $commantaire->delete();
+        return $this->customJsonResponse("commentaire supprimé avec succès", null, Response::HTTP_OK);
 
     }
 }
