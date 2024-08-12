@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\TemoignageController;
 
 Route::get('/user', function (Request $request) {
@@ -13,5 +14,7 @@ Route::get('categorie', [CategorieController::class, 'index']);
 Route::post('categorie', [CategorieController::class, 'store']);
 Route::post('categorie/{categorie}', [CategorieController::class, 'update']);
 Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);
-
+// La route pour les temoignages
 Route::apiResource('temoignages', TemoignageController::class);
+// La route pour les evenements
+Route::apiResource('evenements', EvenementController::class);
