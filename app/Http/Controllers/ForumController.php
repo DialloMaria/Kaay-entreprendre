@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Forum;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreForumRequest;
 use App\Http\Requests\UpdateForumRequest;
 
@@ -15,8 +16,10 @@ class ForumController extends Controller
     public function index()
     {
 
-        $forum = Forum::all();
-        return $forum;
+        // $forum = Forum::all();
+        // return $forum;
+        $forums = Forum::with(['creator', 'modifier', 'domaine'])->get();
+        return $this->customJsonResponse("Forums retrieved successfully", $forums);
     }
 
     /**
@@ -33,7 +36,20 @@ class ForumController extends Controller
     public function store(StoreForumRequest $request)
     {
 
-        return forum::create($request->all());
+        // $forum = Forum::create($request->all());
+        // return $this->customJsonResponse("forum supprimé avec succès", $forum);
+
+         // Validation des données de la requête
+         $data = $request->validated();
+
+         // Création d'une nouvelle instance de Forum
+         $forum = new Forum();
+         $forum->fill($data);
+         $forum->created_by = Auth::id();
+         $forum->save();
+
+         return $this->customJsonResponse("Forum created successfully", $forum, Response::HTTP_CREATED);
+
 
     }
 
@@ -58,7 +74,8 @@ class ForumController extends Controller
      */
     public function update(UpdateForumRequest $request, Forum $forum)
     {
-        //
+        $forum->update($request->validated());
+        return response()->json($forum, Response::HTTP_OK);
     }
 
     /**

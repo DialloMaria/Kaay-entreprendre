@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 
@@ -14,8 +15,10 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $message = Message::all();
-        return $message;
+        // $message = Message::all();
+        // return $message;
+        $message = Message::with(['creator', 'modifier', 'forum'])->get();
+        return $this->customJsonResponse("message retrieved successfully", $message);
     }
 
 
@@ -32,6 +35,7 @@ class MessageController extends Controller
      */
     public function store(StoreMessageRequest $request)
     {
+
         return Message::create($request->all());
     }
 
@@ -40,7 +44,16 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        //
+        $data = $request->validated();
+
+        // Création d'une nouvelle instance de Forum
+        $message = new message();
+        $message->fill($data);
+        $message->created_by = Auth::id();
+        $message->save();
+
+        return $this->customJsonResponse("message created successfully", $message, Response::HTTP_CREATED);
+
     }
 
     /**
@@ -56,8 +69,16 @@ class MessageController extends Controller
      */
     public function update(UpdateMessageRequest $request, Message $message)
     {
-        $message->update($request->all());
-        return $message;
+        $data = $request->validated();
+
+        // Création d'une nouvelle instance de Forum
+        $message = new message();
+        $message->fill($data);
+        $message->modified_by = Auth::id();
+        $message->save();
+
+        return $this->customJsonResponse("message created successfully", $message, Response::HTTP_CREATED);
+
     }
 
     /**
@@ -65,7 +86,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        $forum->delete();
+        $message->delete();
         return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
 
     }
