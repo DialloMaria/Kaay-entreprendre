@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
@@ -38,6 +39,12 @@ Route::middleware('auth:api')->group(function () {
 
     //
     Route::post('/events/{eventId}/register', [UserEventController::class, 'store'])->middleware('auth:api');
+
+    Route::post('/roles/assign/{user}', [RoleController::class, 'assignRole']);
+    Route::delete('/roles/remove/{user}', [RoleController::class, 'removeRole']);
+    Route::get('/roles/{user}', [RoleController::class, 'getUserRoles']);
+    Route::get('/roles', [RoleController::class, 'getAllRoles']);
+    Route::get('/domaines/{role}', [RoleController::class, 'getUsersByRole']);
 
 
 });
