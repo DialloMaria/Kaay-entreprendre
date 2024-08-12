@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Forum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,10 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nom' => $this->faker->sentence,
+            'forum_id' => Forum::factory(),
+            'created_by' => User::factory(),
+            'modified_by' => User::factory(),
         ];
     }
 }

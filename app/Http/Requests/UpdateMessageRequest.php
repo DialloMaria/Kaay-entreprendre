@@ -11,7 +11,7 @@ class UpdateMessageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nom' => 'required|string',
+            'forum_id' => 'required|exists:forums,id',
+            'created_by' => 'nullable|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
         ];
     }
 }
