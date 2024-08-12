@@ -13,14 +13,13 @@ class DomaineSeeder extends Seeder
     public function run()
     {
 
-
-
         Domaine::create([
             'nom' => 'Développement Web',
             'created_by' => 1,
             'modified_by' => 1,
             'categorie_id' => 1 // Assurez-vous que cette catégorie existe
         ]);
+
 
     }
 }

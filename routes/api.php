@@ -12,6 +12,7 @@ use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\TemoignageController;
+use App\Http\Controllers\ForumController;
 
 // Routes accessibles sans authentification
 // =========================================
@@ -104,4 +105,16 @@ Route::middleware('auth:api')->group(function () {
     // -----------------------
     // Utilisation des routes de l'API Resource pour le CRUD des témoignages
     Route::apiResource('temoignages', TemoignageController::class);
+
+
+    // Route des forums
+    Route::get('forum',[ForumController::class, 'index']);
+    Route::post('forum', [ForumController::class, 'store']);
+    Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
+
+    // Routes des commentaire
+    Route::get('commentaire', [CommentaireController::class, 'index']);
+    Route::post('commentaire', [CommentaireController::class, 'store']);
+    Route::post('commentaire/{commentaire}', [CommentaireController::class, 'update']);
+    Route::delete('commentaire/{commentaire}', [CommentaireController::class, 'destroy']);
 });
