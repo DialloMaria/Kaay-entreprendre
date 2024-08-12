@@ -12,5 +12,15 @@ class UserEvent extends Model
     protected $guarded = [];
 
 
-    
+
+    // protected $fillable = ['user_id', 'event_id', 'status'];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function evenement()
+    {
+        return $this->belongsTo(Evenement::class);
+    }
 }

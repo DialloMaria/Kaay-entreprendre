@@ -23,4 +23,10 @@ protected $fillable = [
     {
         return $this->belongsTo(Domaine::class);
 }
+
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_events')->withTimestamps();
+    }
 }
