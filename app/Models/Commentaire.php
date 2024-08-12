@@ -1,26 +1,22 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Guide extends Model
+class Commentaire extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'titre',
         'contenu',
-        'datepublication',
-        'media',
-        'auteur',
-        'domaine_id',
+        'evenement_id',
     ];
 
-    public function domaine()
+    public function evenement()
     {
-        return $this->belongsTo(Domaine::class);
+        return $this->belongsTo(Evenement::class);
     }
 }
-

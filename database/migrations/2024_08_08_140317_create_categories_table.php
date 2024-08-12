@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            // $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
+
             $table->timestamps();
         });
     }
