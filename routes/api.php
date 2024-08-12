@@ -2,17 +2,19 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\DomaineController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\CommentaireController;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\TemoignageController;
-use App\Http\Controllers\ForumController;
 
 // Routes accessibles sans authentification
 // =========================================
@@ -30,6 +32,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // Inscription
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/register/admin', [AuthController::class, 'registerAdmin']);
+
 
 // Routes protégées par authentification
 // ======================================
@@ -51,6 +54,11 @@ Route::middleware('auth:api')->group(function () {
     Route::post('categorie/{categorie}', [CategorieController::class, 'update']);
     // Supprimer une catégorie
     Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);
+
+// middleware
+// Route::middleware('auth:api')->group(function () {
+// Route des forums
+// login
 
     // Gestion des guides
     // ------------------
@@ -107,14 +115,32 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('temoignages', TemoignageController::class);
 
 
-    // Route des forums
+
     Route::get('forum',[ForumController::class, 'index']);
+    Route::get('forum/{forum}', [ForumController::class,'show']);
     Route::post('forum', [ForumController::class, 'store']);
+    Route::put('forum/{forum}', [ForumController::class, 'update']);
     Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
+    Route::get('forum/{forum}/commentaire', [ForumController::class, 'showMessages']);
+
+
+    // Routes des message
+    Route::get('message', [MessageController::class, 'index']);
+    Route::post('message', [MessageController::class, 'store']);
+    Route::post('message/{message}', [MessageController::class, 'update']);
+    Route::delete('message/{message}', [MessageController::class, 'destroy']);
 
     // Routes des commentaire
-    Route::get('commentaire', [CommentaireController::class, 'index']);
-    Route::post('commentaire', [CommentaireController::class, 'store']);
-    Route::post('commentaire/{commentaire}', [CommentaireController::class, 'update']);
-    Route::delete('commentaire/{commentaire}', [CommentaireController::class, 'destroy']);
+    Route::get('commentaire', [CommantaireController::class, 'index']);
+    Route::post('commentaire', [CommantaireController::class, 'store']);
+    Route::post('commentaire/{commentaire}', [CommantaireController::class, 'update']);
+    Route::delete('commentaire/{commentaire}', [CommantaireController::class, 'destroy']);
+
+    // Routes des domaine
+    Route::get('domaine', [DomaineController::class, 'index']);
+    Route::post('domaine', [DomaineController::class, 'store']);
+    Route::post('domaine/{domaine}', [DomaineController::class, 'update']);
+    Route::delete('domaine/{domaine}', [DomaineController::class, 'destroy']);
+
+
 });

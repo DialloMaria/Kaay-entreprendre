@@ -20,3 +20,4 @@ class Domaine extends Model
     protected $table = 'domaines';
 
 }
+

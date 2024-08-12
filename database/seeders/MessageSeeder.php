@@ -19,5 +19,6 @@ class MessageSeeder extends Seeder
             'created_by' => 1, // Assurez-vous que cet utilisateur existe
             'modified_by' => 1,
         ]);
+
     }
 }
