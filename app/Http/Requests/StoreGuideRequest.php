@@ -17,10 +17,13 @@ class StoreGuideRequest extends FormRequest
         return [
             'titre' => 'required|string|max:255',
             'contenu' => 'required|string',
+            'etape ' => 'required|integer|min:1',
             'datepublication' => 'required|date',
             'media' => 'required|string',
             'auteur' => 'required|string',
             'domaine_id' => 'required|exists:domaines,id',
+            'created_by' => 'nullable|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
         ];
     }
 }

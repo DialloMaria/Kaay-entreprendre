@@ -19,14 +19,17 @@ class GuideController extends Controller
             'titre' => 'required|string|max:255',
             'contenu' => 'required|string',
             'datepublication' => 'required|date',
+            'etape' => 'required|integer',
             'media' => 'required|string',
             'auteur' => 'required|string',
             'domaine_id' => 'required|exists:domaines,id',
+            'created_by' => 'required|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
         ]);
 
         try {
             $guide = Guide::create($request->all());
-            return response()->json($guide, 201);
+            return $this->customJsonResponse("Guide créée avec succès", $guide);
         } catch (QueryException $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -51,13 +54,29 @@ class GuideController extends Controller
     $guide = Guide::findOrFail($id);
     $guide->update($request->all());
 
-    return response()->json($guide);
+    return $this->customJsonResponse("Guide mise à jour avec succès", $guide);
 }
 
 
     public function destroy(Guide $guide)
     {
-        $guide->delete();
-        return response()->json(null, 204);
+
+        try {
+
+
+            if (!$guide) {
+                return response()->json(['message' => 'Guide non trouvé'], 404);
+            }
+
+            $guide->delete();
+            return $this->customJsonResponse('Guide supprimé avec succès', $guide);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Erreur lors de la suppression de l\'Guide',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+    
 }

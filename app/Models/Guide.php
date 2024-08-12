@@ -12,10 +12,13 @@ class Guide extends Model
     protected $fillable = [
         'titre',
         'contenu',
+        'etape',
         'datepublication',
         'media',
         'auteur',
         'domaine_id',
+        'created_by',
+        'modified_by',
     ];
 
     public function domaine()

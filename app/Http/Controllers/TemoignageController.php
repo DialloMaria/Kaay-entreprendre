@@ -16,7 +16,7 @@ class TemoignageController extends Controller
     {
         try {
             $temoignages = Temoignage::all();
-            return response()->json(['data' => $temoignages], 200);
+            return $this->customJsonResponse("Temoignages", $temoignages);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erreur lors de la récupération des témoignages', 'error' => $e->getMessage()], 500);
         }
@@ -38,19 +38,29 @@ class TemoignageController extends Controller
             $temoignage->guide_id = $request->input('guide_id');
             $temoignage->created_by = $user->id; // Utiliser l'ID de l'utilisateur connecté
             $temoignage->save();
+            return $this->customJsonResponse("Témoignage créé avec succès", $temoignage);
 
             return response()->json(['message' => 'Témoignage créé avec succès', 'data' => $temoignage], 201);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Erreur lors de la création du témoignage', 'error' => $e->getMessage()], 500);
         }
     }
 
     // Read a single témoignage
-    public function show($id)
+    public function show( Temoignage $temoignage)
     {
         try {
-            $temoignage = Temoignage::findOrFail($id);
-            return response()->json($temoignage);
+            // Temoignage avec white domains et creator
+            $temoignage->load('guide', 'creator');
+
+
+
+            if (!$temoignage) {
+                return response()->json(['message' => 'Témoignage non trouvé'], 404);
+            }
+
+            return $this->customJsonResponse("un témoignage", $temoignage);
+
+
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erreur lors de la récupération du témoignage', 'error' => $e->getMessage()], 500);
         }
@@ -77,7 +87,7 @@ class TemoignageController extends Controller
             $temoignage->modified_by = 41; // Utiliser l'ID de l'utilisateur connecté pour la modification
             $temoignage->update();
 
-            return response()->json(['message' => 'Témoignage mis à jour avec succès', 'data' => $temoignage], 200);
+            return $this->customJsonResponse("Témoignage mis à jour avec succès", $temoignage);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erreur lors de la mise à jour du témoignage', 'error' => $e->getMessage()], 500);
         }
@@ -99,8 +109,7 @@ class TemoignageController extends Controller
             }
            // $temoignage = Temoignage::findOrFail($id);
             $temoignage->delete();
-
-            return response()->json(['message' => 'Témoignage supprimé avec succès'], 200);
+            return $this->customJsonResponse("Témoignage supprimé avec succès", $temoignage);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Erreur lors de la suppression du témoignage', 'error' => $e->getMessage()], 500);
         }

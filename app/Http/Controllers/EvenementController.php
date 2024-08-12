@@ -63,7 +63,7 @@ class EvenementController extends Controller
         // Enregistre la ressource dans la base de données
         $evenement->save();
         return $this->customJsonResponse("Evenement créée avec succès", $evenement);
-        
+
 
     }
 
@@ -120,7 +120,8 @@ class EvenementController extends Controller
             }
 
             $evenement->delete();
-            return response()->json(['message' => 'Événement supprimé avec succès'], 204);
+            return $this->customJsonResponse('Événement supprimé avec succès', $evenement);
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Erreur lors de la suppression de l\'événement',
