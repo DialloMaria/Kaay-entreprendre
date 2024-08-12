@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Guide;
 use App\Models\Domain;
-use App\Models\Domaine;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GuideFactory extends Factory
@@ -13,13 +13,6 @@ class GuideFactory extends Factory
 
     public function definition()
     {
-        return [
-            'titre' => $this->faker->sentence,
-            'contenu' => $this->faker->paragraph,
-            'datepublication' => $this->faker->date,
-            'media' => $this->faker->word . '.jpg',
-            'auteur' => $this->faker->name,
-            'domaine_id' => Domaine::factory(),
-        ];
+    
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Domaine;
 use App\Models\Guide;
+
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class GuideSeeder extends Seeder
@@ -49,10 +50,10 @@ class GuideSeeder extends Seeder
             'modified_by' => $userId,
         ]);
 
+
         Guide::create([
             'titre' => 'Guide de Débutant en Laravel',
             'contenu' => 'Voici un guide pour démarrer avec Laravel...',
-
             'datepublication' => now(),
             'media' => 'guide1.pdf',
             'etape' => 1,
@@ -61,5 +62,7 @@ class GuideSeeder extends Seeder
             'created_by' => 1,
             'modified_by' => 1,
         ]);
+
+        //
     }
 }

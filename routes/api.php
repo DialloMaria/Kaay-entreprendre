@@ -10,6 +10,8 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
+use App\Http\Controllers\EvenementController;
+use App\Http\Controllers\TemoignageController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -64,4 +66,9 @@ Route::middleware('auth:api')->group(function () {
 // ressources
 
 
+
+// La route pour les temoignages
+Route::apiResource('temoignages', TemoignageController::class);
+// La route pour les evenements
+Route::apiResource('evenements', EvenementController::class);
 

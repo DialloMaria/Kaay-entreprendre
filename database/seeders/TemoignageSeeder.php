@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+
 use App\Models\Temoignage;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,5 +21,6 @@ class TemoignageSeeder extends Seeder
             'modified_by' => 1,
             'guide_id' => 1 // Assurez-vous que ce guide existe
         ]);
+        //
     }
 }

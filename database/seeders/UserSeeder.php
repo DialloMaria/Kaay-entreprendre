@@ -28,7 +28,10 @@ class UserSeeder extends Seeder
         Role::firstOrCreate(['name' => 'entrepreneur']);
 
         // Créez des utilisateurs
-        $user1 = User::create([
+
+
+
+        User::create([
             'nom' => 'Ndiaye',
             'prenom' => 'Souleymane',
             'adresse' => 'Dakar, Senegal',
@@ -83,6 +86,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'), // Changez le mot de passe selon vos besoins
             'remember_token' => Str::random(10),
         ]);
+
+    
 
     }
 }

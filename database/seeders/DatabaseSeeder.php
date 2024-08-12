@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -64,6 +65,7 @@ class DatabaseSeeder extends Seeder
             CommentaireSeeder::class,
             RessourceSeeder::class,
             UserEventSeeder::class,
+
         ]);
     }
 }

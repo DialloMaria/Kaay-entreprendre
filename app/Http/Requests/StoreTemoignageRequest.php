@@ -11,7 +11,7 @@ class StoreTemoignageRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreTemoignageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+
+                'titre' => 'required|string|max:255',
+                'description' => 'required|string',
+                'guide_id' => 'required|exists:guides,id',
         ];
     }
 }

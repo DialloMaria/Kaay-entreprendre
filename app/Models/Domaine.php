@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Evenement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,4 +17,6 @@ class Domaine extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    protected $table = 'domaines';
+
 }

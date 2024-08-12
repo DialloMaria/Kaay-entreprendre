@@ -15,9 +15,10 @@ class DomaineFactory extends Factory
     public function definition()
     {
         return [
-            'nom' => $this->faker->word,
+            //
+            'nom' => $this->faker->word(),
             'user_id' => User::factory(),
-            'categorie_id' => Categorie::factory(), 
+            'categorie_id' => Categorie::factory(),
         ];
     }
 }
