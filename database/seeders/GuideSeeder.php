@@ -27,6 +27,7 @@ class GuideSeeder extends Seeder
         Guide::create([
             'titre' => 'Guide Example 1',
             'contenu' => 'This is the content of the first guide.',
+            'etape' =>1,
             'datepublication' => now()->toDateString(),
             'media' => 'media1.jpg',
             'auteur' => 'Author 1',
@@ -38,6 +39,8 @@ class GuideSeeder extends Seeder
         Guide::create([
             'titre' => 'Guide Example 2',
             'contenu' => 'This is the content of the second guide.',
+            'etape' =>2,
+
             'datepublication' => now()->toDateString(),
             'media' => 'media2.jpg',
             'auteur' => 'Author 2',
@@ -49,6 +52,7 @@ class GuideSeeder extends Seeder
         Guide::create([
             'titre' => 'Guide de Débutant en Laravel',
             'contenu' => 'Voici un guide pour démarrer avec Laravel...',
+
             'datepublication' => now(),
             'media' => 'guide1.pdf',
             'etape' => 1,

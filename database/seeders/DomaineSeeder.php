@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Categorie;
 use App\Models\Domaine;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -21,7 +20,6 @@ class DomaineSeeder extends Seeder
             'modified_by' => 1,
             'categorie_id' => 1 // Assurez-vous que cette catégorie existe
         ]);
-        Domaine::factory()->count(5)->create();
 
 
     }

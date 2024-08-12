@@ -37,7 +37,7 @@ public function store(StoreRessourceRequest $request)
     $resource->created_by = Auth::id(); // Associe l'utilisateur actuellement connecté
 
     // Enregistre la ressource dans la base de données
-    $resource->save();
+    $resource->save();  
 
     // Retourne une réponse JSON personnalisée
     return $this->customJsonResponse("Ressource créée avec succès", $resource);

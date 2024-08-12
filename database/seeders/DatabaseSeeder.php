@@ -12,7 +12,7 @@ use App\Models\Evenement;
 use App\Models\Ressource;
 use App\Models\UserEvent;
 use App\Models\Temoignage;
-use App\Models\Commantaire;
+use App\Models\Commentaire;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
     Forum::truncate();
     Message::truncate();
     Evenement::truncate();
-    Commantaire::truncate();
+    Commentaire::truncate();
     Ressource::truncate();
     UserEvent::truncate();
     Role::truncate();
@@ -54,14 +54,14 @@ class DatabaseSeeder extends Seeder
             RolesAndPermissionsSeeder::class,
             UserSeeder::class,
             CategorieSeeder::class,
-            CommentaireSeeder::class,
             DomaineSeeder::class,
             GuideSeeder::class,
             TemoignageSeeder::class,
+            CommentaireSeeder::class,
             ForumSeeder::class,
             MessageSeeder::class,
             EvenementSeeder::class,
-            CommantaireSeeder::class,
+            CommentaireSeeder::class,
             RessourceSeeder::class,
             UserEventSeeder::class,
         ]);
