@@ -6,6 +6,7 @@ use App\Models\Evenement;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+
 class EvenementSeeder extends Seeder
 {
     /**
@@ -22,5 +23,6 @@ class EvenementSeeder extends Seeder
             'modified_by' => 1,
             'domaine_id' => 1 // Assurez-vous que ce domaine existe
         ]);
+        //
     }
 }

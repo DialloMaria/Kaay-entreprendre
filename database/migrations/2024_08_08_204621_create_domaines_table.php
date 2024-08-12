@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\Domaine;
+use App\Models\Categorie;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,17 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('guides', function (Blueprint $table) {
+        Schema::create('domaines', function (Blueprint $table) {
             $table->id();
-            $table->string('titre');
-            $table->string('contenu');
-            $table->date('datepublication');
-            $table->string('media');
-            $table->integer('etape');
-            $table->string('auteur')->nullable();
-            $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
-            // created_by and modifier_by
+            $table->string('nom');
+
+            $table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade');
+            // SOFTDELE
+            $table->softDeletes();
+
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();
             $table->foreign('created_by')
@@ -36,8 +33,6 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('set null');
 
-                $table->softDeletes();
-
             $table->timestamps();
         });
     }
@@ -47,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('guides');
+        Schema::dropIfExists('domaines');
     }
 };

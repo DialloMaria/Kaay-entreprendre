@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evenement;
+use App\Models\UserEvent;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserEventRequest;
 use App\Http\Requests\UpdateUserEventRequest;
-use App\Models\UserEvent;
 
 class UserEventController extends Controller
 {
@@ -15,7 +17,7 @@ class UserEventController extends Controller
     {
         //
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -28,10 +30,44 @@ class UserEventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserEventRequest $request)
+    public function store(StoreUserEventRequest $request, $eventId)
     {
-        //
+        $userId = Auth::id();
+
+        // Vérifier si l'utilisateur est déjà inscrit
+        $existingRegistration = UserEvent::where('user_id', $userId)
+                                         ->where('evenement_id', $eventId)
+                                         ->first();
+
+        if ($existingRegistration) {
+            return response()->json([
+                'message' => 'Vous êtes déjà inscrit à cet événement.'
+            ], 400);
+        }
+
+        // Vérifier si l'événement existe
+        $event = Evenement::find($eventId);
+        if (!$event) {
+            return response()->json([
+                'message' => 'Événement non trouvé.'
+            ], 404);
+        }
+
+        // Enregistrer l'inscription
+        $userEvent = UserEvent::create([
+            'user_id' => $userId,
+            'evenement_id' => $eventId,
+        ]);
+
+        return response()->json([
+            'message' => 'Inscription réussie.',
+            'data' => $userEvent
+        ], 201);
     }
+
+    // Désinscription d'un événement
+
+
 
     /**
      * Display the specified resource.

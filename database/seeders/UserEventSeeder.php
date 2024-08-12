@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\UserEvent;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -17,5 +18,7 @@ class UserEventSeeder extends Seeder
             'user_id' => 1, // Assurez-vous que cet utilisateur existe
             'evenement_id' => 1 // Assurez-vous que cet événement existe
         ]);
+
+        //
     }
 }

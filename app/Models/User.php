@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Domaine;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,17 +13,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
-
+     use HasRoles;
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nom', 'prenom', 'adresse', 'telephone', 'specialisation', 'biographie', 'email', 'password',
     ];
+    // domaines()
+    public function domaines()
+    {
+        return $this->belongsToMany(Domaine::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

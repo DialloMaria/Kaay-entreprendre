@@ -1,67 +1,82 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreGuideRequest;
-use App\Http\Requests\UpdateGuideRequest;
 use App\Models\Guide;
+use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class GuideController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    
     public function index()
     {
-        //
+        $guides = Guide::all();
+        return response()->json($guides);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'contenu' => 'required|string',
+            'datepublication' => 'required|date',
+            'etape' => 'required|integer',
+            'media' => 'required|string',
+            'auteur' => 'required|string',
+            'domaine_id' => 'required|exists:domaines,id',
+            'created_by' => 'required|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
+        ]);
+
+        try {
+            $guide = Guide::create($request->all());
+            return $this->customJsonResponse("Guide créée avec succès", $guide);
+        } catch (QueryException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreGuideRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Guide $guide)
     {
-        //
+        return response()->json($guide);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Guide $guide)
-    {
-        //
-    }
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'titre' => 'required|string|max:255',
+        'contenu' => 'required|string',
+        'datepublication' => 'required|date',
+        'media' => 'required|string',
+        'auteur' => 'required|string',
+        'domaine_id' => 'required|exists:domaines,id',
+    ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGuideRequest $request, Guide $guide)
-    {
-        //
-    }
+    $guide = Guide::findOrFail($id);
+    $guide->update($request->all());
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    return $this->customJsonResponse("Guide mise à jour avec succès", $guide);
+}
+
+
     public function destroy(Guide $guide)
     {
-        //
+
+        try {
+
+
+            if (!$guide) {
+                return response()->json(['message' => 'Guide non trouvé'], 404);
+            }
+
+            $guide->delete();
+            return $this->customJsonResponse('Guide supprimé avec succès', $guide);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Erreur lors de la suppression de l\'Guide',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
+    
 }

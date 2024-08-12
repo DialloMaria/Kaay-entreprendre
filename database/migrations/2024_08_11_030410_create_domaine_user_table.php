@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('domaines', function (Blueprint $table) {
+        Schema::create('domaine_user', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
             $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
-
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();
             $table->foreign('created_by')
@@ -29,6 +28,9 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('set null');$table->foreignIdFor(Categorie::class)->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+    $table->foreignId('domaine_id')->constrained()->onDelete('cascade');
+ 
             $table->timestamps();
         });
     }
@@ -38,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('domaines');
+        Schema::dropIfExists('domaine_user');
     }
 };

@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+
+use App\Models\Guide;
+use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +21,9 @@ class TemoignageFactory extends Factory
     {
         return [
             //
+            'titre' => $this->faker->sentence(),
+            'description' => $this->faker->paragraph(),
+            'guide_id' => Guide::factory(), // Asso
         ];
     }
 }

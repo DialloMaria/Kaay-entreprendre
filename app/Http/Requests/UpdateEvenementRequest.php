@@ -11,7 +11,7 @@ class UpdateEvenementRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,13 @@ class UpdateEvenementRequest extends FormRequest
     {
         return [
             //
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'online' => 'required|boolean',
+            'lieu' => 'required|string|max:255',
+            'domaine_id' => 'required|exists:domaines,id',
+            'created_by' => 'required|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
         ];
     }
 }

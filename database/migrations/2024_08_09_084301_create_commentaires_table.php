@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Guide;
+use App\Models\Evenement;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -12,12 +13,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ressources', function (Blueprint $table) {
+        Schema::create('commentaires', function (Blueprint $table) {
             $table->id();
-            $table->string('titre');
-            $table->string('description');
-            $table->string('lien');
-            $table->string('type');
+            $table->string('contenu');
             $table->foreignIdFor(Guide::class)->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();
@@ -30,7 +28,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('set null');
-                $table->softDeletes();
 
             $table->timestamps();
         });
@@ -41,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ressources');
+        Schema::dropIfExists('commantaires');
     }
 };

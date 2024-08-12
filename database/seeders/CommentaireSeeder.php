@@ -1,19 +1,16 @@
 <?php
-
 namespace Database\Seeders;
 
-use App\Models\Commantaire;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\Commentaire;
 
-class CommantaireSeeder extends Seeder
+class CommentaireSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        Commantaire::create([
+        Commentaire::create([
             'contenu' => 'Très bon guide, merci !',
             'guide_id' => 1, // Assurez-vous que ce guide existe
             'created_by' => 1, // Assurez-vous que cet utilisateur existe
@@ -21,3 +18,4 @@ class CommantaireSeeder extends Seeder
         ]);
     }
 }
+
