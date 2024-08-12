@@ -2,17 +2,18 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\GuideController;
-use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ForumController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\DomaineController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
-use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\TemoignageController;
-use App\Http\Controllers\ForumController;
+use App\Http\Controllers\CommentaireController;
 
 // Routes accessibles sans authentification
 // =========================================
@@ -106,7 +107,7 @@ Route::middleware('auth:api')->group(function () {
     // Utilisation des routes de l'API Resource pour le CRUD des témoignages
     Route::apiResource('temoignages', TemoignageController::class);
 
-
+    Route::patch('profiles/{id}', [ProfileController::class,'update']);
     // Route des forums
     Route::get('forum',[ForumController::class, 'index']);
     Route::post('forum', [ForumController::class, 'store']);

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
 
-            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();
             $table->foreign('created_by')
