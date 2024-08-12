@@ -68,7 +68,7 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des commentaires
     // ------------------------
     // Utilisation des routes de l'API Resource pour le CRUD des commentaires
-    Route::apiResource('commentaires', CommentaireController::class);
+    // Route::apiResource('commentaires', CommentaireController::class);
 
     // Gestion des ressources
     // ----------------------
@@ -131,10 +131,10 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('message/{message}', [MessageController::class, 'destroy']);
 
     // Routes des commentaire
-    Route::get('commentaire', [CommantaireController::class, 'index']);
-    Route::post('commentaire', [CommantaireController::class, 'store']);
-    Route::post('commentaire/{commentaire}', [CommantaireController::class, 'update']);
-    Route::delete('commentaire/{commentaire}', [CommantaireController::class, 'destroy']);
+    Route::get('commentaires', [CommentaireController::class, 'index']);
+    Route::post('commentaires', [CommentaireController::class, 'store']);
+    Route::put('commentaires/{commentaire}', [CommentaireController::class, 'update']);
+    Route::delete('commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
 
     // Routes des domaine
     Route::get('domaine', [DomaineController::class, 'index']);

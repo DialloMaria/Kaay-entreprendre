@@ -1,59 +1,85 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\Commentaire;
-use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreCommentaireRequest;
+use App\Http\Requests\UpdateCommentaireRequest;
 
 class CommentaireController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $commentaires = Commentaire::all();
-        return view('commentaires.index', compact('commentaires'));
+        $commentaire = Commentaire::with('guide', 'creator')->get();
+        return $this->customJsonResponse("Ressouces", $commentaire);
+
+
     }
 
-    public function create()
+
+
+    /**
+     * Show the form for creating a new resource.
+     */
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreCommentaireRequest $request)
     {
-        return view('commentaires.create');
+        return commentaire::create($request->all());
+
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'contenu' => 'required|string',
-            'evenement_id' => 'required|exists:evenements,id',
-        ]);
-
-        Commentaire::create($request->all());
-        return redirect()->route('commentaires.index');
-    }
-
+    /**
+     * Display the specified resource.
+     */
     public function show(Commentaire $commentaire)
     {
-        return view('commentaires.show', compact('commentaire'));
+        $commentaire->load('guide', 'creator');
+
+        // Retourne une réponse JSON personnalisée
+        return $this->customJsonResponse("Commentaire", $commentaire);
     }
 
-    public function edit(Commentaire $commentaire)
-    {
-        return view('commentaires.edit', compact('commentaire'));
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+
+     public function update(UpdateCommentaireRequest $request, Commentaire $commentaire)
+     {
+        if (Auth::id() !== $commentaire->created_by) {
+            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette commentaire'], 403);
+        }
+
+        // Mettre à jour la commentaire avec les données validées
+        $commentaire->fill($request->validated());
+
+        // Mettre à jour l'utilisateur qui modifie la commentaire
+        $commentaire->modified_by = Auth::id();
+
+        // Sauvegarder les modifications dans la base de données
+        $commentaire->save();
+        return $this->customJsonResponse("Commentaire mis à jour avec succès", $commentaire);
     }
 
-    public function update(Request $request, Commentaire $commentaire)
-    {
-        $request->validate([
-            'contenu' => 'required|string',
-            'evenement_id' => 'required|exists:evenements,id',
-        ]);
 
-        $commentaire->update($request->all());
-        return redirect()->route('commentaires.index');
-    }
-
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Commentaire $commentaire)
     {
         $commentaire->delete();
-        return redirect()->route('commentaires.index');
+        return $this->customJsonResponse("commentaire supprimé avec succès",$commentaire);
+
     }
 }
