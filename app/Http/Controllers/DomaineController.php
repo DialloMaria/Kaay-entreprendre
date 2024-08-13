@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Domaine;
+use App\Models\SousDomaine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\DomaineInscription;
 use App\Http\Requests\StoreDomaineRequest;
 use App\Http\Requests\UpdateDomaineRequest;
 
@@ -97,7 +99,7 @@ class DomaineController extends Controller
     public function inscrire(Request $request, $domaineId)
     {
         $user = Auth::user();
-        $domaine = Domaine::findOrFail($domaineId);
+        $domaine = SousDomaine::findOrFail($domaineId);
 
         // Vérifiez si l'utilisateur est déjà inscrit à ce domaine
         if ($user->domaines->contains($domaineId)) {
@@ -106,7 +108,10 @@ class DomaineController extends Controller
 
         // Inscription de l'utilisateur au domaine
         $user->domaines()->attach($domaineId);
+// Inscription de l'utilisateur au domaine
 
+// Envoi de la notification
+$user->notify(new DomaineInscription($domaine));
         return response()->json(['message' => 'Inscription réussie.'], 200);
     }
 
