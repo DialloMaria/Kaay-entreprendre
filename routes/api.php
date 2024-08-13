@@ -16,6 +16,7 @@ use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\TemoignageController;
+use App\Http\Controllers\SousDomaineController;
 
 // Routes accessibles sans authentification
 
@@ -54,9 +55,8 @@ Route::middleware('auth:api')->group(function () {
     // Supprimer une catégorie
     Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);
 
-// middleware
-// Route::middleware('auth:api')->group(function () {
-// Route des forums
+
+
 // login
 
     // Gestion des guides
@@ -120,7 +120,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('temoignages', TemoignageController::class);
 
 
-
+    // Routes des forums
     Route::get('forum',[ForumController::class, 'index']);
     Route::get('forum/{forum}', [ForumController::class,'show']);
     Route::post('forum', [ForumController::class, 'store']);
@@ -128,8 +128,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
     Route::get('forum/{forum}/commentaire', [ForumController::class, 'showMessages']);
 
-
-    // Routes des message
+    // Routes des messag
     Route::get('messages', [MessageController::class, 'index']);
     Route::post('messages', [MessageController::class, 'store']);
     Route::put('messages/{message}', [MessageController::class, 'update']);
@@ -147,16 +146,17 @@ Route::middleware('auth:api')->group(function () {
     Route::put('domaines/{domaine}', [DomaineController::class, 'update']);
     Route::delete('domaines/{domaine}', [DomaineController::class, 'destroy']);
 
+      // route sousdomaine
+      Route::get('sousdomaine', [SousDomaineController::class, 'index']);
+      Route::post('sousdomaine', [SousDomaineController::class,'store']);
+      Route::put('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'update']);
+      Route::delete('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'destroy']);
+
 
     Route::patch('profiles/{id}', [ProfileController::class,'update']);
-    // Route des forums
-    Route::get('forum',[ForumController::class, 'index']);
-    Route::post('forum', [ForumController::class, 'store']);
-    Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
 
-    // Routes des commentaire
-    Route::get('commentaire', [CommentaireController::class, 'index']);
-    Route::post('commentaire', [CommentaireController::class, 'store']);
-    Route::post('commentaire/{commentaire}', [CommentaireController::class, 'update']);
-    Route::delete('commentaire/{commentaire}', [CommentaireController::class, 'destroy']);
+    // Route des forums
+
+
+
 });

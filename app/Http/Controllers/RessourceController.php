@@ -19,8 +19,10 @@ class RessourceController extends Controller
     $resources = Ressource::with('guide', 'creator', 'modifier')->get();
     return $this->customJsonResponse("Ressouces", $resources);
 
-
     }
+
+
+
 
 
     /**

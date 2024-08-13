@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
+use Database\Seeders\SousDomaineSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -66,6 +67,7 @@ class DatabaseSeeder extends Seeder
             RessourceSeeder::class,
             UserEventSeeder::class,
 
+            SousDomaineSeeder::class,
         ]);
     }
 }
