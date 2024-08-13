@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domaine;
 use App\Models\Evenement;
 use App\Models\UserEvent;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\InscriptionEvenement;
 use App\Http\Requests\StoreUserEventRequest;
 use App\Http\Requests\UpdateUserEventRequest;
 
@@ -53,11 +55,18 @@ class UserEventController extends Controller
             ], 404);
         }
 
+        // Récupérer le domaine lié à l'événement
+        $domaine = Domaine::find($event->domaine_id);
+
         // Enregistrer l'inscription
         $userEvent = UserEvent::create([
             'user_id' => $userId,
             'evenement_id' => $eventId,
         ]);
+
+        // Envoyer une notification à l'utilisateur
+        $user = Auth::user();
+        $user->notify(new InscriptionEvenement($event, $domaine));
 
         return response()->json([
             'message' => 'Inscription réussie.',

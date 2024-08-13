@@ -23,4 +23,5 @@ class UserEvent extends Model
     {
         return $this->belongsTo(Evenement::class);
     }
+    
 }
