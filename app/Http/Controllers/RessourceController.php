@@ -13,7 +13,7 @@ class RessourceController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
 

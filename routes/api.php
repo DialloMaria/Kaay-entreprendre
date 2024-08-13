@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForumController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\SousDomaineController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -30,11 +31,18 @@ Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
 
 
 // Routes des message
-
 Route::get('message', [MessageController::class, 'index']);
 Route::post('message', [MessageController::class, 'store']);
 Route::post('message/{message}', [MessageController::class, 'update']);
 Route::delete('message/{message}', [MessageController::class, 'destroy']);
+
+// route sousdomaine
+Route::get('sousdomaine', [SousDomaineController::class, 'index']);
+Route::post('sousdomaine', [SousDomaineController::class,'store']);
+Route::post('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'update']);
+Route::delete('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'destroy']);
+
+// route domaine
 
 
 // login

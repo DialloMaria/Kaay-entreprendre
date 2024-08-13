@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\SousDomaine;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SousDomaineSeeder extends Seeder
 {
@@ -12,16 +14,16 @@ class SousDomaineSeeder extends Seeder
      */
     public function run(): void
     {
-        SousDomaine::create([
-        'nom' => 'Sous-domaine 1 pour ' . $domaine->nom,
-        'domaine_id' => $domaine->id,
+    SousDomaine::create([
+        'nom' => 'Sous-domaine 1 pour ',
+        'domaine_id' => 5,
         'created_by' => User::inRandomOrder()->first()->id,
         'modified_by' => User::inRandomOrder()->first()->id,
     ]);
 
     SousDomaine::create([
-        'nom' => 'Sous-domaine 2 pour ' . $domaine->nom,
-        'domaine_id' => $domaine->id,
+        'nom' => 'Sous-domaine 2 pour ',
+        'domaine_id' => 5,
         'created_by' => User::inRandomOrder()->first()->id,
         'modified_by' => User::inRandomOrder()->first()->id,
     ]);

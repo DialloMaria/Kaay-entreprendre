@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SousDomaine;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreSousDomaineRequest;
 use App\Http\Requests\UpdateSousDomaineRequest;
-use App\Models\SousDomaine;
 
 class SousDomaineController extends Controller
 {
@@ -30,7 +32,16 @@ class SousDomaineController extends Controller
      */
     public function store(StoreSousDomaineRequest $request)
     {
-        //
+ // Validation des données de la requête
+ $data = $request->validated();
+
+ // Création d'une nouvelle instance de SousDomaine
+ $sousDomaine = new SousDomaine();
+ $sousDomaine->fill($data);
+ $sousDomaine->created_by = Auth::id();
+ $sousDomaine->save();
+
+ return $this->customJsonResponse("Sous-domaine créé avec succès", $sousDomaine, Response::HTTP_CREATED);
     }
 
     /**
@@ -54,7 +65,16 @@ class SousDomaineController extends Controller
      */
     public function update(UpdateSousDomaineRequest $request, SousDomaine $sousDomaine)
     {
-        //
+         // Validation des données de la requête
+ $data = $request->validated();
+
+ // Création d'une nouvelle instance de SousDomaine
+ $sousDomaine = new SousDomaine();
+ $sousDomaine->fill($data);
+ $sousDomaine->modified_by = Auth::id();
+ $sousDomaine->save();
+
+ return $this->customJsonResponse("Sous-domaine créé avec succès", $sousDomaine, Response::HTTP_CREATED);
     }
 
     /**
@@ -62,6 +82,8 @@ class SousDomaineController extends Controller
      */
     public function destroy(SousDomaine $sousDomaine)
     {
-        //
+        $sousDomaine->delete();
+        return $this->customJsonResponse("domaine$sousDomaine supprimé avec succès", null, Response::HTTP_OK);
+
     }
 }

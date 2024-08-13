@@ -14,7 +14,17 @@ class SousDomaine extends Model
     protected $guarded = [];
 
     // Relations
-    public function domaine(){
-        return $this->belongsTo(Domaine::class);
-    }
+public function creator(){
+    return $this->belongsTo(User::class, 'created_by');
 }
+
+public function modifier(){
+    return $this->belongsTo(User::class, 'modidied_by');
+}
+
+public function domaine(){
+    return $this->belongsTo(Domaine::class);
+}
+
+}
+

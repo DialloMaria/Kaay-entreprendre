@@ -11,7 +11,7 @@ class StoreSousDomaineRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreSousDomaineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nom' => 'required|string|max:255',
+            'domaine_id' => 'required|exists:domaines,id',
+            'created_by' => 'nullable|exists:users,id',
+            'modified_by' => 'nullable|exists:users,id',
         ];
     }
 }
