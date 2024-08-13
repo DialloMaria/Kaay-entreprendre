@@ -40,7 +40,7 @@ class DomaineController extends Controller
          $domaine->created_by = auth()->id();
          $domaine->save();
 
-         return $this->customJsonResponse("Domaine cree successfully", $domaine, 201);
+         return $this->customJsonResponse("Domaine cree successfully", $domaine);
 
     }
 
@@ -65,15 +65,21 @@ class DomaineController extends Controller
      */
     public function update(UpdateDomaineRequest $request, Domaine $domaine)
     {
-                 // Validation des données de la requête
-                 $data = $request->validated();
-                 // Création d'une nouvelle instance de Domaine
-                 $domaine = new Domaine();
-                 $domaine->fill($data);
-                 $domaine->modified_by = auth()->id();
-                 $domaine->save();
 
-                 return $this->customJsonResponse("Domaine cree successfully", $domaine, 201);
+
+                 if (Auth::id() !== $domaine->created_by) {
+                    return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette domaine'], 403);
+                }
+
+                // Mettre à jour la domaine avec les données validées
+                $domaine->fill($request->validated());
+
+                // Mettre à jour l'utilisateur qui modifie la domaine
+                $domaine->modified_by = Auth::id();
+
+                // Sauvegarder les modifications dans la base de données
+                $domaine->save();
+                return $this->customJsonResponse("Domaine mis à jour avec succès", $domaine);
 
     }
 
@@ -83,7 +89,7 @@ class DomaineController extends Controller
     public function destroy(Domaine $domaine)
     {
         $domaine->delete();
-        return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
+        return $this->customJsonResponse("forum supprimé avec succès",  $domaine);
 
     }
 

@@ -24,8 +24,8 @@ class UpdateMessageRequest extends FormRequest
         return [
             'nom' => 'required|string',
             'forum_id' => 'required|exists:forums,id',
-            'created_by' => 'nullable|exists:users,id',
-            'modified_by' => 'nullable|exists:users,id',
+            'created_by' => 'required|exists:users,id',
+            'modified_by' => 'required|exists:users,id',
         ];
     }
 }

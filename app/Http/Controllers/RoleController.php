@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Spatie\Permission\Models\Permission;
+
 
 
 class RoleController extends Controller
@@ -130,6 +132,40 @@ class RoleController extends Controller
                     // Ajouter d'autres attributs selon vos besoins
                 ];
             }),
+        ], 200);
+    }
+
+    public function assignPermissionsToRole(Request $request, Role $role): JsonResponse
+    {
+        // Valider les données de la requête
+        $request->validate([
+            'permissions' => 'required|array',
+            'permissions.*' => 'required|exists:permissions,name',
+        ]);
+
+        // Récupérer les permissions depuis la base de données
+        $permissions = Permission::whereIn('name', $request->input('permissions'))->get();
+
+        // Assigner les permissions au rôle
+        $role->syncPermissions($permissions);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Permissions assignées avec succès.',
+            'role' => $role->name,
+            'permissions' => $role->permissions->pluck('name'),
+        ], 200);
+    }
+
+    public function getRolePermissions(Role $role): JsonResponse
+    {
+        // Récupérer les permissions du rôle
+        $permissions = $role->permissions->pluck('name');
+
+        return response()->json([
+            'success' => true,
+            'role' => $role->name,
+            'permissions' => $permissions,
         ], 200);
     }
 

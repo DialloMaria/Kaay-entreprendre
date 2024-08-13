@@ -52,7 +52,7 @@ class MessageController extends Controller
         $message->created_by = Auth::id();
         $message->save();
 
-        return $this->customJsonResponse("message created successfully", $message, Response::HTTP_CREATED);
+        return $this->customJsonResponse("message created successfully", $message);
 
     }
 
@@ -69,15 +69,21 @@ class MessageController extends Controller
      */
     public function update(UpdateMessageRequest $request, Message $message)
     {
-        $data = $request->validated();
 
-        // Création d'une nouvelle instance de Forum
-        $message = new message();
-        $message->fill($data);
+        if (Auth::id() !== $message->created_by) {
+            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette message'], 403);
+        }
+
+        // Mettre à jour la message avec les données validées
+        $message->fill($request->validated());
+
+        // Mettre à jour l'utilisateur qui modifie la message
         $message->modified_by = Auth::id();
-        $message->save();
 
-        return $this->customJsonResponse("message created successfully", $message, Response::HTTP_CREATED);
+        // Sauvegarder les modifications dans la base de données
+        $message->save();
+        
+        return $this->customJsonResponse("message mis à jour avec succès", $message);
 
     }
 
@@ -87,7 +93,7 @@ class MessageController extends Controller
     public function destroy(Message $message)
     {
         $message->delete();
-        return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
+        return $this->customJsonResponse("message supprimé avec succès",$message);
 
     }
 }

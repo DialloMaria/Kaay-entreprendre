@@ -102,6 +102,12 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/roles', [RoleController::class, 'getAllRoles']);
     // Récupérer les utilisateurs ayant un rôle spécifique
     Route::get('/domaines/{role}', [RoleController::class, 'getUsersByRole']);
+    //
+    Route::post('/roles/{role}/permissions', [RoleController::class, 'assignPermissionsToRole']);
+
+    Route::get('/roles/{role}/permissions', [RoleController::class, 'getRolePermissions']);
+
+
 
     // Gestion des événements
     // ----------------------
@@ -124,10 +130,10 @@ Route::middleware('auth:api')->group(function () {
 
 
     // Routes des message
-    Route::get('message', [MessageController::class, 'index']);
-    Route::post('message', [MessageController::class, 'store']);
-    Route::post('message/{message}', [MessageController::class, 'update']);
-    Route::delete('message/{message}', [MessageController::class, 'destroy']);
+    Route::get('messages', [MessageController::class, 'index']);
+    Route::post('messages', [MessageController::class, 'store']);
+    Route::put('messages/{message}', [MessageController::class, 'update']);
+    Route::delete('messages/{message}', [MessageController::class, 'destroy']);
 
     // Routes des commentaire
     Route::get('commentaires', [CommentaireController::class, 'index']);
@@ -136,10 +142,10 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('commentaires/{commentaire}', [CommentaireController::class, 'destroy']);
 
     // Routes des domaine
-    Route::get('domaine', [DomaineController::class, 'index']);
-    Route::post('domaine', [DomaineController::class, 'store']);
-    Route::post('domaine/{domaine}', [DomaineController::class, 'update']);
-    Route::delete('domaine/{domaine}', [DomaineController::class, 'destroy']);
+    Route::get('domaines', [DomaineController::class, 'index']);
+    Route::post('domaines', [DomaineController::class, 'store']);
+    Route::put('domaines/{domaine}', [DomaineController::class, 'update']);
+    Route::delete('domaines/{domaine}', [DomaineController::class, 'destroy']);
 
 
     Route::patch('profiles/{id}', [ProfileController::class,'update']);

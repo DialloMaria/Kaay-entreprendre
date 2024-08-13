@@ -11,7 +11,7 @@ class UpdateDomaineRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,6 @@ class UpdateDomaineRequest extends FormRequest
     {
         return [
             'nom' => 'required|string|max:255',
-            'user_id' => 'required|exists:users,id',
             'created_by' => 'nullable|exists:users,id',
             'modified_by' => 'nullable|exists:users,id',
             'categorie_id' => 'required|exists:categories,id',
