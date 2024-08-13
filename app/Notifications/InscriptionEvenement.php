@@ -2,23 +2,17 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\Domaine;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\DatabaseMessage;
 
 class InscriptionEvenement extends Notification
 {
-    use Queueable;
-
     protected $event;
     protected $domaine;
 
     /**
-     * Create a new notification instance.
-     *
-     * @return void
+     * Crée une nouvelle instance de notification.
      */
     public function __construct($event, $domaine)
     {
@@ -27,41 +21,47 @@ class InscriptionEvenement extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
+     * Détermine les canaux de notification que le notifiable doit recevoir.
      *
      * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Envoie une notification par e-mail.
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-{
-    $mailMessage = (new MailMessage)
-                    ->subject('Inscription à un événement dans le domaine: ' . $this->domaine->titre)
-                    ->greeting('Bonjour ' . $notifiable->name)
-                    ->line('Vous vous êtes inscrit avec succès à l\'événement: ' . $this->event->titre)
-                    ->line('Description: ' . $this->event->description);
-
-    // Si l'événement est en ligne, ajouter une ligne spécifique
-    if ($this->event->online) {
-        $mailMessage->line('Cet événement se déroulera en ligne.');
-    } else {
-        $mailMessage->line('Lieu: ' . $this->event->lieu);
+    {
+        return (new MailMessage)
+            ->subject('Inscription à un événement dans le domaine: ' . $this->domaine->titre)
+            ->greeting('Bonjour ' . $notifiable->name)
+            ->line('Vous vous êtes inscrit avec succès à l\'événement: ' . $this->event->titre)
+            ->line('Description: ' . $this->event->description)
+            ->line($this->event->online ? 'Cet événement se déroulera en ligne.' : 'Lieu: ' . $this->event->lieu)
+            ->line('Domaine: ' . $this->domaine->nom)
+            ->line('Merci de votre inscription et à bientôt !');
     }
 
-    $mailMessage->line('Domaine: ' . $this->domaine->nom)
-                ->line('Merci de votre inscription et à bientôt !');
-
-    return $mailMessage;
-}
-
+    /**
+     * Enregistre les détails de la notification dans la base de données.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\DatabaseMessage
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'event_title' => $this->event->titre,
+            'event_description' => $this->event->description,
+            'event_location' => $this->event->online ? 'En ligne' : $this->event->lieu,
+            'domaine_title' => $this->domaine->titre,
+        ];
+    }
 }
