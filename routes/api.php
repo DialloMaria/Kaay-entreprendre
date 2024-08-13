@@ -47,13 +47,13 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des catégories
     // ----------------------
     // Récupérer toutes les catégories
-    Route::get('categorie', [CategorieController::class, 'index']);
+    Route::get('categories', [CategorieController::class, 'index']);
     // Créer une nouvelle catégorie
-    Route::post('categorie', [CategorieController::class, 'store']);
+    Route::post('categories', [CategorieController::class, 'store']);
     // Mettre à jour une catégorie existante
-    Route::post('categorie/{categorie}', [CategorieController::class, 'update']);
+    Route::post('categories/{categorie}', [CategorieController::class, 'update']);
     // Supprimer une catégorie
-    Route::delete('categorie/{categorie}', [CategorieController::class, 'destroy']);
+    Route::delete('categories/{categorie}', [CategorieController::class, 'destroy']);
 
 
 
@@ -121,12 +121,12 @@ Route::middleware('auth:api')->group(function () {
 
 
     // Routes des forums
-    Route::get('forum',[ForumController::class, 'index']);
-    Route::get('forum/{forum}', [ForumController::class,'show']);
-    Route::post('forum', [ForumController::class, 'store']);
-    Route::put('forum/{forum}', [ForumController::class, 'update']);
-    Route::delete('forum/{forum}', [ForumController::class, 'destroy']);
-    Route::get('forum/{forum}/commentaire', [ForumController::class, 'showMessages']);
+    Route::get('forums',[ForumController::class, 'index']);
+    Route::get('forums/{forum}', [ForumController::class,'show']);
+    Route::post('forums', [ForumController::class, 'store']);
+    Route::put('forums/{forum}', [ForumController::class, 'update']);
+    Route::delete('forums/{forum}', [ForumController::class, 'destroy']);
+    Route::get('forums/{forum}/commentaire', [ForumController::class, 'showMessages']);
 
     // Routes des messag
     Route::get('messages', [MessageController::class, 'index']);

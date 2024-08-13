@@ -70,9 +70,9 @@ class MessageController extends Controller
     public function update(UpdateMessageRequest $request, Message $message)
     {
 
-        if (Auth::id() !== $message->created_by) {
-            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette message'], 403);
-        }
+        // if (Auth::id() !== $message->created_by) {
+        //     return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette message'], 403);
+        // }
 
         // Mettre à jour la message avec les données validées
         $message->fill($request->validated());
@@ -82,7 +82,7 @@ class MessageController extends Controller
 
         // Sauvegarder les modifications dans la base de données
         $message->save();
-        
+
         return $this->customJsonResponse("message mis à jour avec succès", $message);
 
     }

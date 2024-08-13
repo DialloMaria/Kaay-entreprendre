@@ -24,8 +24,8 @@ class UpdateSousDomaineRequest extends FormRequest
         return [
             'nom' => 'required|string|max:255',
             'domaine_id' => 'required|exists:domaines,id',
-            'created_by' => 'nullable|exists:users,id',
-            'modified_by' => 'nullable|exists:users,id',
+            'created_by' => 'required|exists:users,id',
+            'modified_by' => 'required|exists:users,id',
         ];
     }
 }

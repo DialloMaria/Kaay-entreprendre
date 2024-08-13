@@ -33,25 +33,14 @@ class ForumController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreForumRequest $request)
-    {
 
-        // $forum = Forum::create($request->all());
-        // return $this->customJsonResponse("forum supprimé avec succès", $forum);
+     public function store(StoreForumRequest $request)
+     {
+        $data = $request->validated();
+        $forum = Forum::create($data);
+        return $this->customJsonResponse("Forum created successfully", $forum);
+     }
 
-         // Validation des données de la requête
-         $data = $request->validated();
-
-         // Création d'une nouvelle instance de Forum
-         $forum = new Forum();
-         $forum->fill($data);
-         $forum->created_by = Auth::id();
-         $forum->save();
-
-         return $this->customJsonResponse("Forum created successfully", $forum, Response::HTTP_CREATED);
-
-
-    }
 
     /**
      * Display the specified resource.

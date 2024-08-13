@@ -22,15 +22,16 @@ class StoreForumRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titre' => 'required|string|max:255',
+            'titre' => 'required|string|max:25',
             'description' => 'required|string|max:255',
-            'nombre_de_message' => 'required|integer',
-            'nombre_de_vue' => 'required|integer',
             'dateCreation' => 'required|date',
+            'nombre_de_message' => 'nullable|integer',
+            'nombre_de_vue' => 'nullable|integer',
             'domaine_id' => 'required|exists:domaines,id',
             'created_by' => 'required|exists:users,id',
-            'created_by' => 'nullable|exists:users,id',
             'modified_by' => 'nullable|exists:users,id',
+
+
         ];
     }
 }

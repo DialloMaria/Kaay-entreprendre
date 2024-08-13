@@ -49,25 +49,24 @@ class SousDomaineController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSousDomaineRequest $request, SousDomaine $sousDomaine)
-    {
 
- if (Auth::id() !== $sousDomaine->created_by) {
-    return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette sousDomaine'], 403);
-}
 
-// Mettre à jour la sousDomaine avec les données validées
-    $sousDomaine->fill($request->validated());
+     public function update(UpdateSousDomaineRequest $request, $id)
+     {
+         $data = $request->validated();
 
-// Mettre à jour l'utilisateur qui modifie la sousDomaine
-    $sousDomaine->modified_by = Auth::id();
+         $sousDomaine = SousDomaine::find($id);
 
-// Sauvegarder les modifications dans la base de données
-    $sousDomaine->save();
+         if ($sousDomaine) {
+             $sousDomaine->fill($data);
+             $sousDomaine->modified_by = Auth::id();
+             $sousDomaine->save();
 
-// Retourner une réponse JSON avec la ressource mise à jour
-return $this->customJsonResponse("Sous-domaine mise à jour avec succès", $sousDomaine);
-    }
+             return $this->customJsonResponse("Sous-domaine mis à jour avec succès", $sousDomaine);
+         } else {
+             return $this->customJsonResponse("Sous-domaine introuvable", null, Response::HTTP_NOT_FOUND);
+         }
+     }
 
 
 

@@ -10,7 +10,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Forum extends Model
 {
     use HasFactory;
-    protected $guarded = [];
+    protected $fillable = [
+        'titre',
+        'description',
+        'nombre_de_message',
+        'nombre_de_vue',
+        'dateCreation',
+        'domaine_id',
+        'created_by',
+        'modified_by',
+    ];
 public function creator(){
     return $this->belongsTo(User::class, 'created_by');
 }
