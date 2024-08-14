@@ -6,49 +6,89 @@ use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
-
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
-        // Création des permissions
-        Permission::create(['name' => 'create-domain']);
-        Permission::create(['name' => 'edit-domain']);
-        Permission::create(['name' => 'delete-domain']);
-        Permission::create(['name' => 'create-guide']);
-        Permission::create(['name' => 'edit-guide']);
-        Permission::create(['name' => 'delete-guide']);
-        Permission::create(['name' => 'participate-event']);
-        Permission::create(['name' => 'comment']);
-        Permission::create(['name' => 'view-forum']);
+        // Reset cached roles and permissions
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Création des rôles et assignation des permissions
+        // Liste des permissions
+        $permissions = [
+            'create users', 'view users', 'edit users', 'delete users',
+            'create categories', 'view categories', 'edit categories', 'delete categories',
+            'create domaines', 'view domaines', 'edit domaines', 'delete domaines',
+            'create sous-domaines', 'view sous-domaines', 'edit sous-domaines', 'delete sous-domaines',
+            'create events', 'view_guides', 'edit events', 'delete events',
+            'create guides', 'view guides', 'edit guides', 'delete guides',
+            'create temoignages', 'view temoignages', 'edit temoignages', 'delete temoignages',
+            'create commentaires', 'view commentaires', 'edit commentaires', 'delete commentaires',
+            'create forums', 'view forums', 'edit forums', 'delete forums',
+            'create messages', 'view messages', 'edit messages', 'delete messages',
+            'create ressources', 'view ressources', 'edit ressources', 'delete ressources',
+            'create user_events', 'view user_events', 'edit user_events', 'delete user_events',
+        ];
+
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
+
+        // Créer les rôles et leur assigner des permissions
         $superAdminRole = Role::create(['name' => 'super_admin']);
+        $adminRole = Role::create(['name' => 'admin']);
+        $mentorRole = Role::create(['name' => 'mentor']);
+        $entrepreneurRole = Role::create(['name' => 'entrepreneur']);
+
+        // Assigner toutes les permissions au super_admin
         $superAdminRole->givePermissionTo(Permission::all());
 
-        $adminRole = Role::create(['name' => 'admin']);
+        // Assigner des permissions spécifiques à l'admin
         $adminRole->givePermissionTo([
-            'create-domain',
-            'edit-domain',
-            'delete-domain',
-            'create-guide',
-            'edit-guide',
-            'delete-guide',
-            'participate-event',
-            'comment',
-            'view-forum',
+            'view domaines',
+            'view sous-domaines',
+            'create events', 'view_guides', 'edit events', 'delete events',
+            'create guides', 'view_guides', 'edit guides', 'delete guides',
+            'create temoignages', 'view temoignages', 'edit temoignages', 'delete temoignages',
+            'create commentaires', 'view commentaires', 'edit commentaires', 'delete commentaires',
+            'create forums', 'view forums', 'edit forums', 'delete forums',
+            'create messages', 'view messages', 'edit messages', 'delete messages',
+            'create ressources', 'view ressources', 'edit ressources', 'delete ressources',
+            'create user_events', 'view user_events', 'edit user_events', 'delete user_events',
         ]);
 
-        $entrepreneurRole = Role::create(['name' => 'entrepreneur']);
+        // Assigner des permissions spécifiques à la mentor
+        $mentorRole->givePermissionTo([
+            'view domaines',
+            'view sous-domaines',
+            'create events', 'view_guides', 'edit events', 'delete events',
+            'create guides', 'view guides', 'edit guides', 'delete guides',
+            'create temoignages', 'view temoignages', 'edit temoignages', 'delete temoignages',
+            'create commentaires', 'view commentaires', 'edit commentaires', 'delete commentaires',
+            'create forums', 'view forums', 'edit forums', 'delete forums',
+            'create messages', 'view messages', 'edit messages', 'delete messages',
+            'create ressources', 'view ressources', 'edit ressources', 'delete ressources',
+            'create user_events', 'view user_events', 'edit user_events', 'delete user_events',
+        ]);
+
+
+        // Assigner des permissions spécifiques à l'antrepreneur
+
         $entrepreneurRole->givePermissionTo([
-            'participate-event',
-            'comment',
-            'view-forum',
+            'view domaines',
+            'create temoignages', 'view temoignages', 'edit temoignages', 'delete temoignages',
+            'create messages', 'view messages', 'edit messages', 'delete messages',
+            'create commentaires', 'view commentaires', 'edit commentaires', 'delete commentaires',
+            'view sous-domaines',
+            'view ressources',
+            'view user_events',
+            'view forums',
+            'view_guides',
+            'view guides'
         ]);
 
-        $userRole = Role::create(['name' => 'user']);
-        $userRole->givePermissionTo([
-            'view-forum',
-        ]);
+
+
+
+
     }
 }
