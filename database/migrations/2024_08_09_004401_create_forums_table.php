@@ -19,7 +19,14 @@ return new class extends Migration
             $table->integer('nombre_de_message');
             $table->integer('nombre_de_vue');
             $table->date('dateCreation');
-            $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
+
+             // modification sous domaine
+             $table->unsignedBigInteger('domaine_id')->nullable();
+             $table->foreign('domaine_id')
+             ->references('id')
+             ->on('sous_domaines')
+             ->onDelete('set null');
+             
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();
 

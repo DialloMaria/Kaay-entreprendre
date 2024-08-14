@@ -29,7 +29,14 @@ return new class extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('set null');
-            $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
+
+                 // modification sous domaine
+            $table->unsignedBigInteger('domaine_id')->nullable();
+            $table->foreign('domaine_id')
+            ->references('id')
+            ->on('sous_domaines')
+            ->onDelete('set null');
+            
             $table->timestamps();
         });
     }

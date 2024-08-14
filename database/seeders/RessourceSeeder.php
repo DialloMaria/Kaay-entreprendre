@@ -13,15 +13,15 @@ class RessourceSeeder extends Seeder
      */
     public function run(): void
     {
-        Ressource::create([
-            'titre' => 'Documentation Laravel',
-            'description' => 'La documentation officielle de Laravel.',
-            'lien' => 'https://laravel.com/docs',
-            'type' => 'Document',
-            'guide_id' => 1, // Assurez-vous que ce guide existe
-            'created_by' => 1, // Assurez-vous que cet utilisateur existe
-            'modified_by' => 1,
-        ]);
+        // Ressource::create([
+        //     'titre' => 'Documentation Laravel',
+        //     'description' => 'La documentation officielle de Laravel.',
+        //     'lien' => 'https://laravel.com/docs',
+        //     'type' => 'Document',
+        //     'guide_id' => 1, // Assurez-vous que ce guide existe
+        //     'created_by' => 1, // Assurez-vous que cet utilisateur existe
+        //     'modified_by' => 1,
+        // ]);
 
     }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Domaine;
+use App\Models\SousDomaine;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Guide extends Model
 {
@@ -15,7 +17,6 @@ class Guide extends Model
         'etape',
         'datepublication',
         'media',
-        'auteur',
         'domaine_id',
         'created_by',
         'modified_by',
@@ -25,5 +26,17 @@ class Guide extends Model
     {
         return $this->belongsTo(Domaine::class);
     }
+
+    public function sousDomaine()
+    {
+        return $this->belongsTo(SousDomaine::class);
+    }
+
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
 }
 

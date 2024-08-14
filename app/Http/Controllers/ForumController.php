@@ -79,8 +79,8 @@ class ForumController extends Controller
         // Validation des données de la requête
 
 
-        if (Auth::id() !== $forum->created_by) {
-            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette forum'], 403);
+        if (Auth::id() !== $forum->created_by && !Auth::user()->hasRole('super_admin')) {
+        return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette ressource'], 403);
         }
 
         // Mettre à jour la ressource avec les données validées
@@ -103,6 +103,10 @@ class ForumController extends Controller
      */
     public function destroy(Forum $forum)
     {
+        if (Auth::id() !== $forum->created_by && !Auth::user()->hasRole('super_admin')) {
+            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette ressource'], 403);
+            }
+
         $forum->delete();
         return $this->customJsonResponse("forum supprimé avec succès", null, Response::HTTP_OK);
 

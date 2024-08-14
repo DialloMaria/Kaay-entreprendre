@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\Domaine;
+use App\Models\SousDomaine;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -20,8 +20,13 @@ return new class extends Migration
             $table->date('datepublication');
             $table->string('media');
             $table->integer('etape');
-            $table->string('auteur')->nullable();
-            $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
+            // modification sous domaine
+            $table->unsignedBigInteger('domaine_id')->nullable();
+            $table->foreign('domaine_id')
+            ->references('id')
+            ->on('sous_domaines')
+            ->onDelete('set null');
+
             // created_by and modifier_by
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();

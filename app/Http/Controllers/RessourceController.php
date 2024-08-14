@@ -72,8 +72,7 @@ public function store(StoreRessourceRequest $request)
     public function update(UpdateRessourceRequest $request, Ressource $ressource)
     {
         // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
-    // if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
-        if (Auth::id() !== $ressource->created_by) {
+    if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
         return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette ressource'], 403);
     }
 
@@ -97,8 +96,7 @@ public function store(StoreRessourceRequest $request)
     public function destroy(Ressource $ressource)
 {
     // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
-    // if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
-    if (Auth::id() !== $ressource->created_by ) {
+    if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
         return response()->json(['message' => 'Vous n\'êtes pas autorisé à supprimer cette ressource'], 403);
     }
 
@@ -126,7 +124,7 @@ public function restore($id)
     $ressource = Ressource::withTrashed()->findOrFail($id);
 
     // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
-    if (Auth::id() !== $ressource->created_by ) {
+    if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
         return response()->json(['message' => 'Vous n\'êtes pas autorisé à restaurer cette ressource'], 403);
     }
 
@@ -145,8 +143,8 @@ public function forceDelete($id)
     $ressource = Ressource::withTrashed()->findOrFail($id);
 
     // Vérifier si l'utilisateur connecté est celui qui a créé la ressource ou s'il est super admin
-    if (Auth::id()!== $ressource->created_by ) {
-        return response()->json(['message' => 'Vous n\'êtes pas autorisé à supprimer définitivement cette ressource'], 403);
+    if (Auth::id() !== $ressource->created_by && !Auth::user()->hasRole('super_admin')) {
+           return response()->json(['message' => 'Vous n\'êtes pas autorisé à supprimer définitivement cette ressource'], 403);
     }
 
     $ressource->forceDelete();

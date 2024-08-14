@@ -56,6 +56,7 @@ class CategorieController extends Controller
      */
     public function update(UpdateCategorieRequest $request, Categorie $categorie)
     {
+        
         $categorie->update($request->all());
         return $categorie;
     }
@@ -65,6 +66,9 @@ class CategorieController extends Controller
      */
     public function destroy(Categorie $categorie)
     {
+        if (Auth::id() !== $guide->created_by && !Auth::user()->hasRole('super_admin')) {
+            return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette ressource'], 403);
+        }
         $categorie->delete();
         return $this->customJsonResponse("Étudiant supprimé avec succès", null, Response::HTTP_OK);
 

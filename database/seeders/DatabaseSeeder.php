@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorieSeeder::class,
             DomaineSeeder::class,
+            SousDomaineSeeder::class,
             GuideSeeder::class,
             TemoignageSeeder::class,
             CommentaireSeeder::class,
@@ -67,7 +68,6 @@ class DatabaseSeeder extends Seeder
             RessourceSeeder::class,
             UserEventSeeder::class,
 
-            SousDomaineSeeder::class,
         ]);
     }
 }

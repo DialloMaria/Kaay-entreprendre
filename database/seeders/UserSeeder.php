@@ -45,19 +45,48 @@ class UserSeeder extends Seeder
         ]);
         $user1->assignRole('super_admin');
 
+        $user1a=  User::create([
+            'nom' => 'Talla',
+            'prenom' => 'Coach Saliou',
+            'adresse' => 'Dakar, Senegal',
+            'telephone' => '77 123 45 12',
+            'specialisation' => 'Développeur seniors',
+            'biographie' => 'Développeur passionné par les nouvelles technologies.',
+            'email' => 'cheikhserignesalioutalla@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'), // Changez le mot de passe selon vos besoins
+            'remember_token' => Str::random(10),
+        ]);
+        $user1a->assignRole('super_admin');
+
+
         $user2 = User::create([
             'nom' => 'Ndiaye',
             'prenom' => 'Alpha',
             'adresse' => 'Dakar, Senegal',
             'telephone' => '77 123 45 67',
-            'specialisation' => 'Développeur Web',
+            'specialisation' => 'Agriculture',
             'biographie' => 'Développeur passionné par les nouvelles technologies.',
-            'email' => 'alpha@gmail.com',
+            'email' => 'barroama23@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // Changez le mot de passe selon vos besoins
             'remember_token' => Str::random(10),
         ]);
         $user2->assignRole('admin');
+
+        $user2a = User::create([
+            'nom' => 'Ndiaye',
+            'prenom' => 'Alpha',
+            'adresse' => 'Dakar, Senegal',
+            'telephone' => '77 123 45 67',
+            'specialisation' => 'Informatiques',
+            'biographie' => 'Développeur passionné par les nouvelles technologies.',
+            'email' => 'alphandiaye383@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'), // Changez le mot de passe selon vos besoins
+            'remember_token' => Str::random(10),
+        ]);
+        $user2a->assignRole('admin');
 
         $user3 = User::create([
             'nom' => 'Diallo',
@@ -66,12 +95,26 @@ class UserSeeder extends Seeder
             'telephone' => '77 123 45 67',
             'specialisation' => 'Développeur Web',
             'biographie' => 'Développeur passionné par les nouvelles technologies.',
-            'email' => 'mariama@gmail.com',
+            'email' => 'mdiallomariam0715@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // Changez le mot de passe selon vos besoins
             'remember_token' => Str::random(10),
         ]);
         $user3->assignRole('entrepreneur');
+
+        $user3a = User::create([
+            'nom' => 'Ndiaye',
+            'prenom' => 'Julinho',
+            'adresse' => 'Dakar, Senegal',
+            'telephone' => '77 123 45 67',
+            'specialisation' => 'Développeur Web',
+            'biographie' => 'Développeur passionné par les nouvelles technologies.',
+            'email' => 'julinhondiaye097@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'), // Changez le mot de passe selon vos besoins
+            'remember_token' => Str::random(10),
+        ]);
+        $user3a->assignRole('entrepreneur');
 
 
         $user4 = User::create([
@@ -89,6 +132,6 @@ class UserSeeder extends Seeder
 
 
 
-       
+
     }
 }
