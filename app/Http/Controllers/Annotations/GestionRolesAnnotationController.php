@@ -94,7 +94,7 @@ namespace App\Http\Controllers\Annotations ;
  *             @OA\Schema(
  *                 type="object",
  *                 properties={
- *                     @OA\Property(property="permissions", type="string", format="binary"),
+ *                     @OA\Property(property="permissions", type="string"),
  *                 },
  *             ),
  *         ),
@@ -143,6 +143,7 @@ namespace App\Http\Controllers\Annotations ;
  *             @OA\Schema(
  *                 type="object",
  *                 properties={
+ *                     @OA\Property(property="role", type="string"),
  *                 },
  *             ),
  *         ),
