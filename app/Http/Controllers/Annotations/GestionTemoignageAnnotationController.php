@@ -26,7 +26,7 @@ namespace App\Http\Controllers\Annotations ;
  *
 
  * @OA\GET(
- *     path="/api/temoignages/1",
+ *     path="/api/temoignages",
  *     summary="index",
  *     description="",
  *         security={
