@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('description');
+            $table->string('image')->nullable();
             $table->boolean('online')->default(true);
             $table->string('lieu');
             $table->unsignedBigInteger('created_by')->nullable();
@@ -36,7 +37,7 @@ return new class extends Migration
             ->references('id')
             ->on('sous_domaines')
             ->onDelete('set null');
-            
+
             $table->timestamps();
         });
     }
