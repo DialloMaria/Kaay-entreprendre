@@ -19,6 +19,7 @@ use App\Http\Controllers\SousDomaineController;
 
 // Routes accessibles sans authentification
 // ----------------------------------------
+Route::get('domaines', [DomaineController::class, 'index']);
 
 // Route pour récupérer les informations de l'utilisateur authentifié
 Route::get('/user', function (Request $request) {
@@ -43,7 +44,7 @@ Route::middleware('auth:api')->group(function () {
     // Authentification
     // ----------------
     // Route pour la déconnexion
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 
     // Gestion des catégories
     // ----------------------
@@ -67,6 +68,10 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('role:admin|super_admin')->group(function () {
         Route::apiResource('guides', GuideController::class)
             ->only(['store', 'update', 'destroy']);
+            Route::get('/dashboard/super-admin', [ProfileController::class, 'dashboardSuperAdmin']);
+
+
+
     });
 
 
@@ -75,6 +80,9 @@ Route::middleware('auth:api')->group(function () {
     // ----------------------
     // Récupérer les ressources supprimées (dans la corbeille)
     Route::middleware('role:super_admin')->group(function () {
+
+        // Récupérer toutes les ressources supprimées
+
 
         Route::get('/ressources/corbeille', [RessourceController::class, 'trashed']);
 
@@ -169,7 +177,6 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des domaines
     // --------------------
     // Routes pour le CRUD des domaines
-    Route::get('domaines', [DomaineController::class, 'index']);
 
     Route::middleware('role:super_admin')->group(function () {
 

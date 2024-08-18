@@ -15,6 +15,8 @@ return new class extends Migration
         Schema::create('sous_domaines', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->string('description');
+            $table->string('image');
             $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();
