@@ -4,11 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Domaine;
+use App\Models\SousDomaine;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -24,9 +26,9 @@ class User extends Authenticatable implements JWTSubject
         'nom', 'prenom', 'adresse', 'telephone', 'specialisation', 'biographie', 'email', 'password',
     ];
     // domaines()
-    public function domaines()
+    public function domaines(): BelongsToMany
     {
-        return $this->belongsToMany(Domaine::class);
+        return $this->belongsToMany(SousDomaine::class, 'domaine_user');
     }
 
     /**

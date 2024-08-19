@@ -20,6 +20,9 @@ use App\Http\Controllers\SousDomaineController;
 // Routes accessibles sans authentification
 // ----------------------------------------
 Route::get('domaines', [DomaineController::class, 'index']);
+Route::get('/domaines/{domaine}/sous-domaines', [CategorieController::class, 'getSousDomaines']);
+Route::get('domaines/{domaine}', [DomaineController::class, 'show']);
+Route::get('sous-domaines/{id}/entrepreneurs', [SousDomaineController::class, 'getEntrepreneurs']);
 
 // Route pour récupérer les informations de l'utilisateur authentifié
 Route::get('/user', function (Request $request) {
@@ -57,8 +60,11 @@ Route::middleware('auth:api')->group(function () {
         Route::post('categories', [CategorieController::class, 'store']);
         // Mettre à jour une catégorie existante
         Route::post('categories/{categorie}', [CategorieController::class, 'update']);
+        Route::get('categories/{categorie}', [CategorieController::class, 'show']);
         // Supprimer une catégorie
         Route::delete('categories/{categorie}', [CategorieController::class, 'destroy']);
+        // Récupérer les sous-domaines d'une catégorie
+        // domaines/${domaineId}/sous-domaines
     });
     // Gestion des guides
     // ------------------
@@ -125,7 +131,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/roles', [RoleController::class, 'getAllRoles']);
 
         // Route pour récupérer les utilisateurs ayant un rôle spécifique
-        Route::get('/domaines/{role}', [RoleController::class, 'getUsersByRole']);
+        Route::get('/domaines/role/{role}', [RoleController::class, 'getUsersByRole']);
 
         // Route pour assigner des permissions à un rôle
         Route::post('/roles/{role}/permissions', [RoleController::class, 'assignPermissionsToRole']);
@@ -193,7 +199,7 @@ Route::middleware('auth:api')->group(function () {
     Route::middleware('role:super_admin')->group(function () {
 
         Route::post('sousdomaine', [SousDomaineController::class,'store']);
-        Route::put('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'update']);
+        Route::post('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'update']);
         Route::delete('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'destroy']);
     });
 

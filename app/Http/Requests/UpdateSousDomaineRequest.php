@@ -23,6 +23,8 @@ class UpdateSousDomaineRequest extends FormRequest
     {
         return [
             'nom' => 'required|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'domaine_id' => 'required|exists:domaines,id',
             'created_by' => 'required|exists:users,id',
             'modified_by' => 'required|exists:users,id',

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Domaine;
 use App\Models\Categorie;
+use App\Models\SousDomaine;
 use Illuminate\Http\Response;
 use App\Http\Requests\StoreCategorieRequest;
 use App\Http\Requests\UpdateCategorieRequest;
@@ -35,13 +37,32 @@ class CategorieController extends Controller
         return Categorie::create($request->all());
     }
 
-    /**
+    /**b
      * Display the specified resource.
      */
     public function show(Categorie $categorie)
     {
-        //
+        // Load domaines with their respective sousDomaines
+        $categorie->load('domaines.sousDomaines');
+
+        // Return response with the nested structure
+        return response()->json([
+            'categorie' => $categorie,
+            'domaines' => $categorie->domaines,
+        ]);
     }
+
+    public function getSousDomaines(Domaine $domaine)
+    {
+        // Load only the sousDomaines for the selected domaine
+        $sousDomaines = $domaine->sousDomaines;
+
+        // Return the subdomains as a JSON response
+        return response()->json([
+            'sousDomaines' => $sousDomaines,
+        ]);
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -56,7 +77,7 @@ class CategorieController extends Controller
      */
     public function update(UpdateCategorieRequest $request, Categorie $categorie)
     {
-        
+
         $categorie->update($request->all());
         return $categorie;
     }

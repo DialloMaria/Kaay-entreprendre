@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Guide;
 use App\Models\Categorie;
 use App\Models\Evenement;
+use App\Models\SousDomaine;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -38,6 +40,19 @@ class Domaine extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+
+    public function sousDomaines()
+    {
+        return $this->hasMany(SousDomaine::class);
+    }
+
+
+    public function guides()
+    {
+        return $this->hasMany(Guide::class);
+    }
+
+
 
 
 

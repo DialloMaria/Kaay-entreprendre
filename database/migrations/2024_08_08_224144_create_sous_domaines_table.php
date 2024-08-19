@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->foreignIdFor(Domaine::class)->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('created_by')->nullable();
             $table->unsignedBigInteger('modified_by')->nullable();

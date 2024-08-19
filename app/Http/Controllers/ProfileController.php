@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 
 use App\Models\Guide;
-use App\Models\Categorie;
+use App\Models\Domaine;
+use App\Models\SousDomaine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,47 +51,36 @@ class ProfileController extends Controller
 
 // Dans le DashboardController
 // // Entrepreneurs inscrits 1 000 , Guides 100, Admin 1 000
-// public function dashboardSuperAdmin() {
-//     $entrepreneursCount = User::where('role', 'entrepreneur')->count();
-//     $adminsCount = User::roles()->where('role', 'admin')->count();
-//     $guidesCount = Guide::where('role', 'guide')->count();
-
-//     return response()->json([
-//         'entrepreneurs' => $entrepreneursCount,
-//         'admins' => $adminsCount,
-//         'guides' => $guidesCount,
-//     ]);
-// }
 public function dashboardSuperAdmin() {
+    // Compte des entrepreneurs, admins, et guides
     $entrepreneursCount = User::whereHas('roles', function($query) {
         $query->where('name', 'entrepreneur');
     })->count();
+
     $adminsCount = User::whereHas('roles', function($query) {
         $query->where('name', 'admin');
     })->count();
-    $guidesCount = Guide::all()->count();
-    // Method voir static dans chaque categories nombre admins , nombre guides, nombre domaine et entrepreneur inscrire sur cette categorie
 
-    $categorieDomaine = Categorie::domaine()->count();
-    $categorieGuide= Categorie::domaine()->guide()->count();
-    $categorieEntrepreneur = Categorie::user()->whereHas('roles', function($query) {
-        $query->where('name', 'entrepreneur')->domaine();
-    })->count();;
+    $guidesCount = Guide::count();
 
-
-
-
+    // associer a un categorie
+    $domaineCount = Domaine::with('categorie')->count();
+    $entrepreneursDomaineCount = Domaine::with('users')->count();
+    $guideDomaineCount = SousDomaine::with('guides')->count();
+    $adminDomaineCount = Domaine::with('creator')->count();
 
 
     return response()->json([
         'entrepreneurs' => $entrepreneursCount,
         'admins' => $adminsCount,
         'guides' => $guidesCount,
-        'categorie_domaine' => $categorieDomaine,
-        'categorie_guide' => $categorieGuide,
-        'categorie_entrepreneur' => $categorieEntrepreneur,
+        'domaines' => $domaineCount,
+        'entrepreneursDomaine' => $entrepreneursDomaineCount,
+        'guidesDomaine' => $guideDomaineCount,
+        'adminDomaine' => $adminDomaineCount,
     ]);
 }
+
     // Method voir static dans chaque categories nombre admins , nombre guides, nombre domaine et entrepreneur inscrire sur cette categorie
     public function detailCategoreie() {
             // Method voir static dans chaque categories assicie nombre admins , nombre guides, nombre domaine et entrepreneur inscrire sur cette categorie
