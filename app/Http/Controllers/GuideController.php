@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreGuideRequest;
+use App\Http\Requests\UpdateGuideRequest;
 
 class GuideController extends Controller
 {
@@ -18,39 +19,47 @@ class GuideController extends Controller
 
 
     public function store(StoreGuideRequest $request)
-{
-    // Récupération de l'utilisateur authentifié
-    $user = Auth::user();
+    {
+        // Récupération de l'utilisateur authentifié
+        $user = Auth::user();
 
-    // Récupération du domaine spécifié
-    $domaine = Domaine::find($request->domaine_id);
+        // Récupération du domaine spécifié
+        $domaine = Domaine::find($request->domaine_id);
 
-    if (!$domaine) {
-        return response()->json(['error' => 'Domaine non trouvé'], 404);
+        if (!$domaine) {
+            return response()->json(['error' => 'Domaine non trouvé'], 404);
+        }
+
+        // Vérification que l'utilisateur est un super administrateur ou a la spécialisation requise
+        if (!$user->hasRole('super_admin') && $user->specialisation !== $domaine->nom) {
+            return response()->json(['error' => 'Vous n\'êtes pas autorisé à créer un guide dans ce domaine'], 403);
+        }
+
+        try {
+            $data = $request->validated();
+
+            // Création du guide
+            $guide = new Guide();
+            $guide->fill($data); // Remplit les attributs du guide avec les données validées
+            $guide->created_by = $user->id; // Associe l'utilisateur actuellement connecté comme créateur
+
+            // Tr   aitement de l'image si elle est présente
+            if ($request->hasFile('media')) {
+                $image = $request->file('media');
+                $guide->media = $image->store('guides', 'public');
+            }
+
+            // Enregistrement du guide dans la base de données
+            $guide->save();
+
+            // Réponse de succès avec les détails du guide créé
+            return response()->json(['message' => 'Guide créé avec succès', 'guide' => $guide], 201);
+
+        } catch (QueryException $e) {
+            // Gestion des erreurs liées à la base de données
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-
-    // Vérification que l'utilisateur est un super administrateur ou a la spécialisation requise
-    if (!$user->hasRole('super_admin') && $user->specialisation !== $domaine->nom) {
-        return response()->json(['error' => 'Vous n\'êtes pas autorisé à créer un guide dans ce domaine'], 403);
-    }
-
-    try {
-        // Création du guide
-        $guide = new Guide();
-        $guide->fill($request->validated()); // Remplit les attributs du guide avec les données validées
-        $guide->created_by = $user->id; // Associe l'utilisateur actuellement connecté comme créateur
-
-        // Enregistrement du guide dans la base de données
-        $guide->save();
-
-        // Réponse de succès avec les détails du guide créé
-        return response()->json(['message' => 'Guide créée avec succès', 'guide' => $guide], 201);
-
-    } catch (QueryException $e) {
-        // Gestion des erreurs liées à la base de données
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-}
 
 
 
@@ -61,38 +70,54 @@ class GuideController extends Controller
         return response()->json($guide);
     }
 
-    public function update(Request $request, $id)
-{
-     // Récupération de l'utilisateur authentifié
-     $user = Auth::user();
+    public function update(UpdateGuideRequest $request, $id)
+    {
+        // Récupération de l'utilisateur authentifié
+        $user = Auth::user();
 
-     // Récupération du domaine spécifié
-     $domaine = Domaine::find($request->domaine_id);
+        // Récupération du guide spécifié par l'ID
+        $guide = Guide::find($id);
 
-     // Vérification si le domaine existe
-     if (!$domaine) {
-         return response()->json(['error' => 'Domaine non trouvé'], 404);
-     }
+        if (!$guide) {
+            return response()->json(['error' => 'Guide non trouvé'], 404);
+        }
 
-     // Vérification des permissions : super administrateur ou spécialisation requise
-     if (!$user->hasRole('super_admin') && $user->specialisation !== $domaine->nom) {
-         return response()->json(['error' => 'Vous n\'êtes pas autorisé à créer un guide dans ce domaine'], 403);
-     }
+        // Vérification que l'utilisateur est un super administrateur ou est le créateur du guide
+        if (!$user->hasRole('super_admin') && $user->id !== $guide->created_by) {
+            return response()->json(['error' => 'Vous n\'êtes pas autorisé à modifier ce guide'], 403);
+        }
 
-    $request->validate([
-        'titre' => 'required|string|max:255',
-        'contenu' => 'required|string',
-        'datepublication' => 'required|date',
-        'media' => 'required|string',
-        'auteur' => 'required|string',
-        'domaine_id' => 'required|exists:domaines,id',
-    ]);
+        try {
+            // Validation des données
+            $data = $request->validated();
 
-    $guide = Guide::findOrFail($id);
-    $guide->update($request->all());
+            // Mise à jour des attributs du guide avec les données validées
+            $guide->fill($data);
 
-    return $this->customJsonResponse("Guide mise à jour avec succès", $guide);
-}
+            // Traitement de l'image si elle est présente
+            if ($request->hasFile('media')) {
+                // Suppression de l'ancienne image s'il y en a une
+                if ($guide->media) {
+                    Storage::disk('public')->delete($guide->media);
+                }
+
+                // Stockage de la nouvelle image
+                $image = $request->file('media');
+                $guide->media = $image->store('guides', 'public');
+            }
+
+            // Enregistrement des modifications dans la base de données
+            $guide->save();
+
+            // Réponse de succès avec les détails du guide mis à jour
+            return response()->json(['message' => 'Guide mis à jour avec succès', 'guide' => $guide], 200);
+
+        } catch (QueryException $e) {
+            // Gestion des erreurs liées à la base de données
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
 
     public function destroy(Guide $guide)

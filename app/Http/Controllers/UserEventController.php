@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Domaine;
 use App\Models\Evenement;
 use App\Models\UserEvent;
@@ -17,8 +18,36 @@ class UserEventController extends Controller
      */
     public function index()
     {
-        //
+        // list all users where roles is entrepreneur
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'entrepreneur');
+        })->get();
+
+        // list all events where user_id is one of the above users
+        $events = Evenement::whereIn('user_id', $users->pluck('id'))
+                            ->with('domaine')
+                            ->get();
+
+        return $this->customJsonResponse("Événements inscrits des entrepreneurs", $events);
     }
+        // list all users where roles is entrepreneur
+
+        public function entrepreneur()
+        {
+            // list all users where roles is entrepreneur
+            $users = User::whereHas('roles', function ($query) {
+                $query->where('name', 'entrepreneur');
+            })->get();
+            return $this->customJsonResponse("Liste des entrepreneurs", $users);
+        }
+
+        // administrative
+
+
+
+
+
+
 
 
     /**
@@ -73,6 +102,7 @@ class UserEventController extends Controller
             'data' => $userEvent
         ], 201);
     }
+
 
     // Désinscription d'un événement
 

@@ -25,6 +25,7 @@ class UpdateEvenementRequest extends FormRequest
             //
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
+            'image' =>  'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'online' => 'required|boolean',
             'lieu' => 'required|string|max:255',
             'domaine_id' => 'required|exists:domaines,id',

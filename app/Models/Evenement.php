@@ -13,6 +13,8 @@ protected $fillable = [
         'titre',
         'description',
         'online',
+        'image',
+        'date_debut',
         'lieu',
         'domaine_id',
         'created_by',

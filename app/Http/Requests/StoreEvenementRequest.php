@@ -25,7 +25,13 @@ class StoreEvenementRequest extends FormRequest
             //
             'titre' => 'required|string|max:255',
             'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'online' => 'required|boolean',
+            // date_debut est > today
+            'date_debut' => 'required|date|after:today',
+
+
+
             'lieu' => 'required|string|max:255',
             'domaine_id' => 'required|exists:domaines,id',
             'created_by' => 'required|exists:users,id',

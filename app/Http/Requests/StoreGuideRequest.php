@@ -3,7 +3,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+
 
 class StoreGuideRequest extends FormRequest
 {
@@ -18,10 +20,18 @@ class StoreGuideRequest extends FormRequest
             'titre' => 'required|string|max:255',
             'contenu' => 'required|string',
             'datepublication' => 'required|date',
-            'etape' => 'required|integer',
-            'media' => 'required|string',
+
+            // Validation unique de l'étape dans le sous-domaine spécifié
+            'etape' => [
+                'required',
+                'integer',
+                Rule::unique('guides')->where(function ($query) {
+                    return $query->where('domaine_id', $this->domaine_id);
+                }),
+            ],
+
+            'media' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'domaine_id' => 'required|exists:domaines,id',
-            'created_by' => 'required|exists:users,id',
             'modified_by' => 'nullable|exists:users,id',
         ];
     }

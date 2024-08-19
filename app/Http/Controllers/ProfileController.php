@@ -6,6 +6,7 @@ use App\Models\User;
 
 use App\Models\Guide;
 use App\Models\Domaine;
+use App\Models\Evenement;
 use App\Models\SousDomaine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,10 @@ public function dashboardSuperAdmin() {
     $entrepreneursDomaineCount = Domaine::with('users')->count();
     $guideDomaineCount = SousDomaine::with('guides')->count();
     $adminDomaineCount = Domaine::with('creator')->count();
+    // evenement
+    $evenementCount = Evenement::count();
+
+    // Récupération des données pour la vue
 
 
     return response()->json([
@@ -78,6 +83,7 @@ public function dashboardSuperAdmin() {
         'entrepreneursDomaine' => $entrepreneursDomaineCount,
         'guidesDomaine' => $guideDomaineCount,
         'adminDomaine' => $adminDomaineCount,
+        'evenements' => $evenementCount,
     ]);
 }
 

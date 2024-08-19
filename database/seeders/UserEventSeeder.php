@@ -14,10 +14,10 @@ class UserEventSeeder extends Seeder
      */
     public function run(): void
     {
-        UserEvent::create([
-            'user_id' => 1, // Assurez-vous que cet utilisateur existe
-            'evenement_id' => 1 // Assurez-vous que cet événement existe
-        ]);
+        // UserEvent::create([
+        //     'user_id' => 1, // Assurez-vous que cet utilisateur existe
+        //     'evenement_id' => 1 // Assurez-vous que cet événement existe
+        // ]);
 
         //
     }

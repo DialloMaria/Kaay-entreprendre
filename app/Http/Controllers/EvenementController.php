@@ -59,7 +59,10 @@ class EvenementController extends Controller
         $evenement = new Evenement();
         $evenement->fill($request->validated()); // Utilise les données validées
         $evenement->created_by = Auth::id(); // Associe l'utilisateur actuellement connecté
-
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $evenement->image = $image->store('evenements', 'public');
+        }
         // Enregistre la ressource dans la base de données
         $evenement->save();
         return $this->customJsonResponse("Evenement créée avec succès", $evenement);
@@ -92,6 +95,20 @@ class EvenementController extends Controller
             return response()->json(['message' => 'Vous n\'êtes pas autorisé à modifier cette evenement'], 403);
         }
         $evenement->modified_by = Auth::id();
+        // image
+
+
+if ($request->hasFile('image')) {
+                // Suppression de l'ancienne image s'il y en a une
+                if ($evenement->image) {
+                    Storage::disk('public')->delete($evenement->image);
+                }
+
+                // Stockage de la nouvelle image
+                $image = $request->file('image');
+                $evenement->image = $image->store('evenements', 'public');
+            }
+
 
         $evenement->update($validated);
         return $this->customJsonResponse("Evénement mise à jour avec succès", $evenement);
@@ -129,4 +146,6 @@ class EvenementController extends Controller
             ], 500);
         }
     }
+
+    
 }

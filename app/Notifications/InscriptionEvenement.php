@@ -41,7 +41,7 @@ class InscriptionEvenement extends Notification
     {
         return (new MailMessage)
             ->subject('Inscription à un événement dans le domaine: ' . $this->domaine->titre)
-            ->greeting('Bonjour ' . $notifiable->name)
+            ->greeting('Bonjour ' . $notifiable->prenom  ,$notifiable->nom  )
             ->line('Vous vous êtes inscrit avec succès à l\'événement: ' . $this->event->titre)
             ->line('Description: ' . $this->event->description)
             ->line($this->event->online ? 'Cet événement se déroulera en ligne.' : 'Lieu: ' . $this->event->lieu)

@@ -11,7 +11,7 @@ class UpdateGuideRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,13 @@ class UpdateGuideRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+         return [
+        'titre' => 'required|string|max:255',
+        'contenu' => 'required|string',
+        // 'datepublication' => 'required|date',
+        'etape' => 'required|string',
+        // 'domaine_id' => 'required|exists:domaines,id',
+        // 'media' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',
+    ];
     }
 }

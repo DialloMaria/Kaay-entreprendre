@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->string('description');
+            $table->datetime('date_debut');
             $table->string('image')->nullable();
             $table->boolean('online')->default(true);
             $table->string('lieu');

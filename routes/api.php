@@ -3,18 +3,19 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ForumController;
+use App\Http\Controllers\GuideController;
 use App\Http\Controllers\DomaineController;
 use App\Http\Controllers\MessageController;
-use App\Http\Controllers\CategorieController;
-use App\Http\Controllers\GuideController;
-use App\Http\Controllers\CommentaireController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\RessourceController;
 use App\Http\Controllers\UserEventController;
 use App\Http\Controllers\TemoignageController;
+use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\SousDomaineController;
 
 // Routes accessibles sans authentification
@@ -69,13 +70,14 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des guides
     // ------------------
      // Routes pour les actions nécessitant la permission 'view_guides'
+     Route::post('guides/{guide}', [GuideController::class, 'update']);
+
     Route::apiResource('guides', GuideController::class);
 
     Route::middleware('role:admin|super_admin')->group(function () {
         Route::apiResource('guides', GuideController::class)
-            ->only(['store', 'update', 'destroy']);
+            ->only(['store', 'destroy']);
             Route::get('/dashboard/super-admin', [ProfileController::class, 'dashboardSuperAdmin']);
-
 
 
     });
@@ -112,7 +114,16 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des événements
     // ----------------------
     // Route pour l'inscription d'un utilisateur à un événement spécifique
-    Route::post('/events/{eventId}/register', [UserEventController::class, 'store']);
+    Route::post('/evenement/{eventId}/register', [UserEventController::class, 'store']);
+    Route::get('/evenements/entrepreneurs/', [UserEventController::class, 'index']);
+    Route::get('/liste/entrepreneurs/', [UserEventController::class, 'entrepreneur']);
+    Route::get('/liste/admins/', [AdminController::class, 'admin']);
+
+    // Route pour annuler l'inscription d'un utilisateur à un événement spécifique
+
+
+
+
 
     // Gestion des rôles
     // -----------------
@@ -143,6 +154,10 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des événements
     // ----------------------
     // Utilisation des routes de l'API Resource pour le CRUD des événements
+
+
+    Route::post('evenements/{evenement}', [EvenementController::class, 'update']);
+
     Route::apiResource('evenements', EvenementController::class);
     Route::apiResource('evenements', EvenementController::class)->middleware('role:admin|super_admin')->only(['store', 'update', 'destroy']);
 
@@ -194,13 +209,15 @@ Route::middleware('auth:api')->group(function () {
     // Gestion des sous-domaines
     // -------------------------
     // Routes pour le CRUD des sous-domaines
-    Route::get('sousdomaine', [SousDomaineController::class, 'index']);
+    Route::get('sous-domaines', [SousDomaineController::class, 'index']);
 
     Route::middleware('role:super_admin')->group(function () {
 
         Route::post('sousdomaine', [SousDomaineController::class,'store']);
         Route::post('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'update']);
         Route::delete('sousdomaine/{sousdomaine}', [SousDomaineController::class, 'destroy']);
+        Route::get('domaines/{domaine}/sous-domaines', [SousDomaineController       ::class, 'getSousDomaines']);
+
     });
 
     // Gestion des profils

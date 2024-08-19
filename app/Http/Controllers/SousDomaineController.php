@@ -18,6 +18,11 @@ class SousDomaineController extends Controller
         $sousDomaine = SousDomaine::with(['creator', 'modifier', 'domaine'])->get();
         return $this->customJsonResponse("sous-domaine retrieved successfully", $sousDomaine);
     }
+    public function getSousDomaines($domaineId)
+{
+    $sousDomaines = SousDomaine::where('domaine_id', $domaineId)->get();
+    return response()->json($sousDomaines);
+}
 
     /**
      * Show the form for creating a new resource.
