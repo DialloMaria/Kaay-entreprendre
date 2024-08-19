@@ -37,7 +37,11 @@ class SousDomaineController extends Controller
 
  // Création d'une nouvelle instance de SousDomaine
  $sousDomaine = new SousDomaine();
- $sousDomaine->fill($data);
+ $sousDomaine->fill( $request->validated() );
+ if ( $request->hasFile( 'image' ) ) {
+     $image = $request->file( 'image' );
+     $sousDomaine->image = $image->store( 'images', 'public' );
+ }
  $sousDomaine->created_by = Auth::id();
  $sousDomaine->save();
 
@@ -56,17 +60,26 @@ class SousDomaineController extends Controller
          $data = $request->validated();
 
          $sousDomaine = SousDomaine::find($id);
+         // Vérifier si le sous-domaine existe
+         if (!$sousDomaine) {
 
-         if ($sousDomaine) {
-             $sousDomaine->fill($data);
-             $sousDomaine->modified_by = Auth::id();
-             $sousDomaine->save();
-
-             return $this->customJsonResponse("Sous-domaine mis à jour avec succès", $sousDomaine);
-         } else {
              return $this->customJsonResponse("Sous-domaine introuvable", null, Response::HTTP_NOT_FOUND);
          }
-     }
+         if ( $request->hasFile( 'image' ) ) {
+             $image = $request->file( 'image' );
+             $sousDomaine->image = $image->store( 'images', 'public' );
+         } else {
+             // Si l'image n'est pas fournie, garder l'ancienne image
+             $sousDomaine->image = $sousDomaine->image;
+         }
+
+         $sousDomaine->fill($data);
+
+         $sousDomaine->modified_by = Auth::id();
+         $sousDomaine->save();
+
+         return $this->customJsonResponse("Sous-domaine mis à jour avec succès", $sousDomaine);
+        }
 
 
 
@@ -80,6 +93,21 @@ class SousDomaineController extends Controller
         return $this->customJsonResponse("sous-domaine supprimé avec succès", null, Response::HTTP_OK);
 
     }
+  // app/Http/Controllers/SousDomaineController.php
+  public function getEntrepreneurs($id)
+  {
+      // Trouver le sous-domaine par ID
+      $sousDomaine = SousDomaine::find($id);
 
+      // Vérifier si le sous-domaine existe
+      if (!$sousDomaine) {
+          return response()->json(['message' => 'Sous-domaine non trouvé'], 404);
+      }
+
+      // Récupérer les entrepreneurs associés
+      $entrepreneurs = $sousDomaine->users;
+
+      return response()->json(['entrepreneurs' => $entrepreneurs], 200);
+  }
 
 }

@@ -13,13 +13,14 @@ use App\Models\Ressource;
 use App\Models\UserEvent;
 use App\Models\Temoignage;
 use App\Models\Commentaire;
+use App\Models\SousDomaine;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 
 use Database\Seeders\SousDomaineSeeder;
+use Spatie\Permission\Models\Permission;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
     User::truncate();
     Categorie::truncate();
     Domaine::truncate();
+    SousDomaine::truncate();
     Guide::truncate();
     Temoignage::truncate();
     Forum::truncate();

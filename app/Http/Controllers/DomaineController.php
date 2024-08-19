@@ -52,6 +52,11 @@ class DomaineController extends Controller
     public function show(Domaine $domaine)
     {
         //
+        $domaine->load('categorie');
+
+        // Retourne une réponse JSON personnalisée
+        return $this->customJsonResponse("Domaine", $domaine);
+        // Retourne une réponse JSON personnalisée
     }
 
     /**

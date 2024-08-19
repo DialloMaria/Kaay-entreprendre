@@ -28,14 +28,29 @@ class DomaineSeeder extends Seeder
             'nom' => 'Agriculture',
             'created_by' => 1,
             'modified_by' => 1,
-            'categorie_id' => $categorieEntrepriseId
+            'categorie_id' => $categorieEntrepreneurId
         ]);
 
         Domaine::create([
             'nom' => 'Santé',
             'created_by' => 1,
             'modified_by' => 1,
+            'categorie_id' => $categorieEntrepreneurId
+        ]);
+        Domaine::create([
+            'nom' => 'Micro-Entreprise',
+            'created_by' => 1,
+            'modified_by' => 1,
             'categorie_id' => $categorieEntrepriseId
         ]);
+        Domaine::create([
+            'nom' => 'Macro-Entreprise',
+            'created_by' => 1,
+            'modified_by' => 1,
+            'categorie_id' => $categorieEntrepriseId
+        ]);
+
+
+
     }
 }

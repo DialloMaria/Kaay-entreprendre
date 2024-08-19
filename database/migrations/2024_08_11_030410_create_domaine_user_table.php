@@ -14,11 +14,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('domaine_user', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('domaine_id')->constrained()->onDelete('cascade');
- 
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('sous_domaine_id');
+            // etat
+            $table->enum('etat', [ 'En cours', 'Terminer'])->default('En cours'); // Par défaut, l'état est 'En attente'
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('sous_domaine_id')->references('id')->on('sous_domaines')->onDelete('cascade');
+
+            $table->unique(['user_id', 'sous_domaine_id']); // Assure qu'un utilisateur ne peut pas s'inscrire plusieurs fois au même domaine
+
         });
     }
 
