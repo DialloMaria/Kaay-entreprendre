@@ -25,7 +25,6 @@ class StoreSousDomaineRequest extends FormRequest
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-
             'domaine_id' => 'required|exists:domaines,id',
             'created_by' => 'nullable|exists:users,id',
             'modified_by' => 'nullable|exists:users,id',
