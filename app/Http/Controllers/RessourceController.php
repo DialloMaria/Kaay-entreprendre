@@ -6,6 +6,7 @@ use App\Models\Ressource;
 use App\Http\Requests\StoreRessourceRequest;
 use App\Http\Requests\UpdateRessourceRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
 
 class RessourceController extends Controller
@@ -153,6 +154,5 @@ public function forceDelete($id)
        'message' => 'Ressource supprimée définitivement avec succès',
     ]);
 }
-
 
 }

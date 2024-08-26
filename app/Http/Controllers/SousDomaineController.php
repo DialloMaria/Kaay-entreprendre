@@ -23,6 +23,25 @@ class SousDomaineController extends Controller
     $sousDomaines = SousDomaine::where('domaine_id', $domaineId)->get();
     return response()->json($sousDomaines);
 }
+    public function sousdomaineByDomaine($id = null)
+    {
+        // Récupérer l'ID du domaine depuis les paramètres de la route
+        $domaineId = $id;
+
+        if ($domaineId) {
+            // Filtrer les sous-domaines par domaine_id
+            $sousDomaine = SousDomaine::with(['creator', 'modifier', 'domaine'])
+                ->where('domaine_id', $domaineId)
+                ->get();
+        } else {
+            // Si domaine_id n'est pas fourni, retourner une réponse d'erreur ou vide
+            return $this->customJsonResponse("Aucun domaine_id fourni", []);
+        }
+
+        return $this->customJsonResponse("Sous-domaine retrieved successfully", $sousDomaine);
+    }
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -20,6 +20,7 @@ use App\Http\Controllers\SousDomaineController;
 
 // Routes accessibles sans authentification
 // ----------------------------------------
+
 Route::get('domaines', [DomaineController::class, 'index']);
 Route::get('/domaines/{domaine}/sous-domaines', [CategorieController::class, 'getSousDomaines']);
 Route::get('domaines/{domaine}', [DomaineController::class, 'show']);
@@ -201,7 +202,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::middleware('role:super_admin')->group(function () {
 
-        Route::post('domaines', [DomaineController::class, 'store']);
+
         Route::put('domaines/{domaine}', [DomaineController::class, 'update']);
         Route::delete('domaines/{domaine}', [DomaineController::class, 'destroy']);
     });
@@ -220,9 +221,12 @@ Route::middleware('auth:api')->group(function () {
 
     });
 
-    // Gestion des profils
-    // -------------------
-    // Route pour mettre à jour un profil utilisateur
-    Route::patch('profiles/{id}', [ProfileController::class, 'update']);
 
 });
+//la route pour domaine categorie
+Route::get('/domainescategorie/{id?}', [DomaineController::class, 'domainebycategorie']);
+//la route pour sous domaine domaine
+//Route::get('/sousdomainesbydomaine/{id?}', [SousDomaineController::class, 'sousdomaineByDomaine']);
+Route::get('/sousdomainesbydomaine/{id?}', [SousDomaineController::class, 'sousdomaineByDomaine']);
+
+

@@ -21,6 +21,22 @@ class DomaineController extends Controller
         return $this->customJsonResponse("domaine retrieved successfully", $domaine);
     }
 
+    
+    public function domainebycategorie($categorieId = null)
+{
+    if ($categorieId) {
+        // Filtrer les domaines par catégorie spécifique
+        $domaines = Domaine::where('categorie_id', $categorieId)
+                           ->with(['creator', 'modifier'])
+                           ->get();
+    } else {
+        // Récupérer tous les domaines avec leurs catégories
+        $domaines = Domaine::with(['creator', 'modifier', 'categorie'])->get();
+    }
+
+    return $this->customJsonResponse("Domaines retrieved successfully", $domaines);
+}
+
     /**
      * Show the form for creating a new resource.
      */
@@ -121,4 +137,5 @@ $user->notify(new DomaineInscription($domaine));
     }
 
 
+   
 }
