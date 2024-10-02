@@ -21,7 +21,7 @@ class DomaineInscription extends Notification
     public function via($notifiable)
     {
         // Méthodes de notification (par exemple: mail, database)
-        return ['mail','database'];
+        return ['mail'];
     }
 
     public function toMail($notifiable)

@@ -33,6 +33,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
 
         ]);
+        $middleware->validateCsrfTokens(except: [
+            env('APP_URL') . '/researchjspost'
+        ]);
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
